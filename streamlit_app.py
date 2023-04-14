@@ -44,8 +44,8 @@ st.subheader("Check your Powerball and Mega Millions numbers")
 lottery_type = st.selectbox("Select Lottery Type", ["Powerball", "Mega Millions"])
 
 st.write("Enter your numbers (comma separated):")
-default_powerball_numbers = "1, 2, 3, 4, 5"
-default_mega_millions_numbers = "6, 7, 8, 9, 10"
+default_powerball_numbers = "18, 29, 35, 44, 60"
+default_mega_millions_numbers = "8, 33, 38, 50, 53"
 
 if lottery_type == "Powerball":
     user_numbers_input = st.text_input("", value=default_powerball_numbers, label_visibility='collapsed')
@@ -54,9 +54,9 @@ else:
 user_numbers = set(map(int, user_numbers_input.split(",")))
 
 if lottery_type == "Powerball":
-    bonus_number = st.number_input("Enter your Powerball bonus number:", value=6, min_value=1, max_value=50)
+    bonus_number = st.number_input("Enter your Powerball bonus number:", value=26, min_value=1, max_value=50)
 else:
-    bonus_number = st.number_input("Enter your Mega Millions bonus number:", value=11, min_value=1, max_value=50)
+    bonus_number = st.number_input("Enter your Mega Millions bonus number:", value=25, min_value=1, max_value=50)
 
 start_date = st.date_input("Select start date:")
 end_date = st.date_input("Select end date:")
