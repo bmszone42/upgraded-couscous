@@ -5,45 +5,51 @@ import datetime
 import pandas as pd
 
 def get_powerball_data(start_date, end_date):
-    url = f"https://www.powerball.com/previous-results"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+    url = "https://www.powerball.com/previous-results"
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+    driver.get(url)
 
-    data = soup.find_all("div", class_="result-item")
+    data = driver.find_elements_by_css_selector(".result-item")
     results = []
 
     for draw in data:
-        draw_date = draw.find("h3", class_="result-heading").text.strip()
+        draw_date = draw.find_element_by_css_selector(".result-heading").text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers = [int(num.text) for num in draw.find_all("li", class_="result-ball")]
-            powerball = int(draw.find("li", class_="result-powerball").text)
+            numbers = [int(num.text) for num in draw.find_elements_by_css_selector(".result-ball")]
+            powerball = int(draw.find_element_by_css_selector(".result-powerball").text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
 
+    driver.quit()
     return results
 
 def get_mega_millions_data(start_date, end_date):
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+    options = Options()
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+    driver.get(url)
 
-    data = soup.find_all("div", class_="row pb-4 pt-4 border-bottom border-secondary")
+    data = driver.find_elements_by_css_selector(".row.pb-4.pt-4.border-bottom.border-secondary")
     results = []
 
     for draw in data:
-        draw_date = draw.find("div", class_="col-sm-6 col-lg-4 pb-2 pb-md-0").text.strip()
+        draw_date = draw.find_element_by_css_selector(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers_list = draw.find("ul", class_="list-unstyled winning_numbers")
-            numbers = [int(num.text) for num in numbers_list.find_all("li", class_="ball")] + \
-                      [int(num.text) for num in numbers_list.find_all("li", class_="ball yellow")]
-            mega_ball = int(draw.find("li", class_="ball gold").text)
+            numbers_list = draw.find_element_by_css_selector(".list-unstyled.winning_numbers")
+            numbers = [int(num.text) for num in numbers_list.find_elements_by_css_selector(".ball")] + \
+                      [int(num.text) for num in numbers_list.find_elements_by_css_selector(".ball.yellow")]
+            mega_ball = int(draw.find_element_by_css_selector(".ball.gold").text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
 
+    driver.quit()
     return results
 
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
