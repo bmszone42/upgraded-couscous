@@ -3,6 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
