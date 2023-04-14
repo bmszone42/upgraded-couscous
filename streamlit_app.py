@@ -15,7 +15,7 @@ number5 = st.number_input("Enter fifth number", min_value=1, max_value=69, value
 bonus_number = st.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
 
 # Get results from website
-url = 'https://www.powerball.com/check-your-numbers'
+url = 'https://www.powerball.com/previous-results?gc=powerball'
 params = {
     'game': 'powerball',
     'p': '',
