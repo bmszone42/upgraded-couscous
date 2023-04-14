@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 
 # Set default numbers
-default_numbers = [4, 8, 15, 16, 23]
-default_bonus_number = 1
+default_numbers = [9, 36, 41, 44, 59]
+default_bonus_number = 4
 
 # Create inputs for user to enter numbers
 number1 = st.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
