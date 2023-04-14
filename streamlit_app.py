@@ -67,7 +67,6 @@ def get_mega_millions_data(start_date, end_date):
 
     return results
 
-
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
     for draw in lottery_data:
         winning_numbers = draw["winning_numbers"]
