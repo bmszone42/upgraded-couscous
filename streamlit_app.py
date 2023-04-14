@@ -123,24 +123,27 @@ def app():
         else:
             lottery_data = get_mega_millions_data()
 
-        winning_combination = get_winning_combination(lottery_data, user_numbers, bonus_number)
-
-        if winning_combination != "No Win":
-            st.success(f"Congratulations! You got a {winning_combination}!")
+        if len(lottery_data) == 0:
+            st.warning("Sorry, no lottery data was found for the selected date.")
         else:
-            st.warning("Sorry, you did not win.")
+            latest_draw = lottery_data[0]
+            winning_combination = get_winning_combination(latest_draw, user_numbers, bonus_number)
 
-        st.subheader("Numbers drawn for the latest drawing:")
+            if winning_combination != "No Win":
+                st.success(f"Congratulations! You got a {winning_combination}!")
+            else:
+                st.warning("Sorry, you did not win.")
 
-        latest_draw = lottery_data[0]
+            st.subheader("Numbers drawn for the latest lottery date:")
 
-        data = {
-            "Date": [latest_draw["date"]],
-            "Numbers Drawn": [", ".join(str(num) for num in sorted(latest_draw["winning_numbers"]))],
-            "Bonus Number": [latest_draw["bonus_number"]],
-        }
-        df = pd.DataFrame(data)
-        st.write(df)
+            data = {
+                "Date": latest_draw["date"],
+                "Numbers Drawn": ", ".join(str(num) for num in sorted(latest_draw["winning_numbers"])),
+                "Bonus Number": latest_draw["bonus_number"],
+            }
+            df = pd.DataFrame(data, index=[0])
+            st.write(df)
+
         
     st.subheader("Disclaimer")
     st.write("This tool is for informational purposes only. While we strive to ensure the accuracy of the information provided, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.")    
