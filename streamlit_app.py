@@ -29,14 +29,34 @@ def get_mega_millions_data(start_date, end_date):
         results.append({"winning_numbers": set(numbers), "bonus_number": mega_ball})
     return results
 
-def check_winning_numbers(lottery_data, user_numbers, bonus_number):
+def get_winning_combination(lottery_data, user_numbers, bonus_number):
     for draw in lottery_data:
         winning_numbers = draw["winning_numbers"]
         draw_bonus_number = draw["bonus_number"]
-        
-        if winning_numbers == user_numbers and draw_bonus_number == bonus_number:
-            return True
-    return False
+
+        matched_numbers = winning_numbers.intersection(user_numbers)
+        matched_count = len(matched_numbers)
+        bonus_matched = bonus_number == draw_bonus_number
+
+        if matched_count == 5 and bonus_matched:
+            return "Jackpot"
+        elif matched_count == 5:
+            return "Match 5"
+        elif matched_count == 4 and bonus_matched:
+            return "Match 4 + Bonus"
+        elif matched_count == 4:
+            return "Match 4"
+        elif matched_count == 3 and bonus_matched:
+            return "Match 3 + Bonus"
+        elif matched_count == 3:
+            return "Match 3"
+        elif matched_count == 2 and bonus_matched:
+            return "Match 2 + Bonus"
+        elif matched_count == 1 and bonus_matched:
+            return "Match 1 + Bonus"
+        elif bonus_matched:
+            return "Bonus Only"
+    return "No Win"
 
 st.title("Lottery Number Checker")
 st.subheader("Check your Powerball and Mega Millions numbers")
@@ -70,9 +90,9 @@ if st.button("Check Numbers"):
     else:
         lottery_data = get_mega_millions_data(start_date_str, end_date_str)
 
-    won = check_winning_numbers(lottery_data, user_numbers, bonus_number)
+    winning_combination = get_winning_combination(lottery_data, user_numbers, bonus_number)
 
-    if won:
-        st.success("Congratulations! You won!")
+    if winning_combination != "No Win":
+        st.success(f"Congratulations! You got a {winning_combination}!")
     else:
         st.warning("Sorry, you did not win.")
