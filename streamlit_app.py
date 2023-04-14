@@ -14,17 +14,27 @@ def get_powerball_data(start_date, end_date):
     data = soup.select(".result-item")
     results = []
 
-    for draw in data:
-        draw_date = draw.select_one(".result-heading").text.strip()
-        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    while True:
+        for draw in data:
+            draw_date = draw.select_one(".result-heading").text.strip()
+            draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
-        if start_date <= draw_date <= end_date:
-            numbers = [int(num.text) for num in draw.select(".result-ball")]
-            powerball = int(draw.select_one(".result-powerball").text)
+            if start_date <= draw_date <= end_date:
+                numbers = [int(num.text) for num in draw.select(".result-ball")]
+                powerball = int(draw.select_one(".result-powerball").text)
 
-            results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
+                results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
+
+        next_page = soup.select_one(".load-more > a")
+        if not next_page:
+            break
+
+        response = requests.get(next_page["href"])
+        soup = BeautifulSoup(response.text, "html.parser")
+        data = soup.select(".result-item")
 
     return results
+
 
 # Scrape Mega Millions data from official website for a given date range
 def get_mega_millions_data(start_date, end_date):
@@ -34,19 +44,29 @@ def get_mega_millions_data(start_date, end_date):
     data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")
     results = []
 
-    for draw in data:
-        draw_date = draw.select_one(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
-        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    while True:
+        for draw in data:
+            draw_date = draw.select_one(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
+            draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
-        if start_date <= draw_date <= end_date:
-            numbers_list = draw.select_one(".list-unstyled.winning_numbers")
-            numbers = [int(num.text) for num in numbers_list.select(".ball")] + \
-                      [int(num.text) for num in numbers_list.select(".ball.yellow")]
-            mega_ball = int(draw.select_one(".ball.gold").text)
+            if start_date <= draw_date <= end_date:
+                numbers_list = draw.select_one(".list-unstyled.winning_numbers")
+                numbers = [int(num.text) for num in numbers_list.select(".ball")] + \
+                          [int(num.text) for num in numbers_list.select(".ball.yellow")]
+                mega_ball = int(draw.select_one(".ball.gold").text)
 
-            results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
+                results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
+
+        next_page = soup.select_one(".pagination > .next > a")
+        if not next_page:
+            break
+
+        response = requests.get(next_page["href"])
+        soup = BeautifulSoup(response.text, "html.parser")
+        data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")
 
     return results
+
 
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
     for draw in lottery_data:
