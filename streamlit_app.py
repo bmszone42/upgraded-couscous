@@ -127,6 +127,9 @@ for numbers in winning_numbers:
         if num in numbers:
             match_count += 1
     matches.append(match_count)
+    
+user_numbers = [number1, number2, number3, number4, number5]
+
 
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
