@@ -5,29 +5,45 @@ import datetime
 import pandas as pd
 
 def get_powerball_data(start_date, end_date):
-    url = f"https://www.powerball.com/api/v1/numbers/powerball?_format=json&min=1&max=5&startDate={start_date}&endDate={end_date}"
+    url = f"https://www.powerball.com/previous-results"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    data = soup.find_all("div", class_="winning-numbers")
 
+    data = soup.find_all("div", class_="result-item")
     results = []
+
     for draw in data:
-        numbers = [int(n.text) for n in draw.find_all("span", class_="ball")]
-        powerball = int(draw.find("span", class_="powerball").text)
-        results.append({"winning_numbers": set(numbers), "bonus_number": powerball})
+        draw_date = draw.find("h3", class_="result-heading").text.strip()
+        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+
+        if start_date <= draw_date <= end_date:
+            numbers = [int(num.text) for num in draw.find_all("li", class_="result-ball")]
+            powerball = int(draw.find("li", class_="result-powerball").text)
+
+            results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
+
     return results
 
 def get_mega_millions_data(start_date, end_date):
-    url = f"https://www.megamillions.com/api/v1/numbers/megamillions?_format=json&min=1&max=5&startDate={start_date}&endDate={end_date}"
+    url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    data = soup.find_all("div", class_="winning-numbers")
 
+    data = soup.find_all("div", class_="row pb-4 pt-4 border-bottom border-secondary")
     results = []
+
     for draw in data:
-        numbers = [int(n.text) for n in draw.find_all("span", class_="ball")]
-        mega_ball = int(draw.find("span", class_="mega-ball").text)
-        results.append({"winning_numbers": set(numbers), "bonus_number": mega_ball})
+        draw_date = draw.find("div", class_="col-sm-6 col-lg-4 pb-2 pb-md-0").text.strip()
+        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+
+        if start_date <= draw_date <= end_date:
+            numbers_list = draw.find("ul", class_="list-unstyled winning_numbers")
+            numbers = [int(num.text) for num in numbers_list.find_all("li", class_="ball")] + \
+                      [int(num.text) for num in numbers_list.find_all("li", class_="ball yellow")]
+            mega_ball = int(draw.find("li", class_="ball gold").text)
+
+            results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
+
     return results
 
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
