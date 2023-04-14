@@ -140,7 +140,8 @@ st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bo
 
 # Check if the user matched the winning numbers
 matches = set(user_numbers).intersection(winning_numbers)
-matched_bonus = bonus_number == winning_bonus_number
+matched_bonus = bonus_number == winning_powerball
+
 
 # Display the number of matches and bonus number match
 if len(matches) == 0 and not matched_bonus:
