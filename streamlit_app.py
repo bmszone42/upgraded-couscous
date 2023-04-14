@@ -9,26 +9,23 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
-    options = Options()
-    options.add_argument("--headless")
-    service = ChromeService(executable_path="./chromedriver")
-    driver = webdriver.Chrome(service=service, options=options)
-    driver.get(url)
+    session = HTMLSession()
+    response = session.get(url)
+    response.html.render()
 
-    data = driver.find_elements_by_css_selector(".result-item")
+    data = response.html.find(".result-item")
     results = []
 
     for draw in data:
-        draw_date = draw.find_element_by_css_selector(".result-heading").text.strip()
+        draw_date = draw.find(".result-heading", first=True).text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers = [int(num.text) for num in draw.find_elements_by_css_selector(".result-ball")]
-            powerball = int(draw.find_element_by_css_selector(".result-powerball").text)
+            numbers = [int(num.text) for num in draw.find(".result-ball")]
+            powerball = int(draw.find(".result-powerball", first=True).text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
 
-    driver.quit()
     return results
 
 def get_mega_millions_data(start_date, end_date):
