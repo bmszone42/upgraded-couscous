@@ -30,7 +30,10 @@ soup = BeautifulSoup(response.content, 'html.parser')
 winning_numbers_div = soup.find_all('div', {'class': 'item-powerball'})
 winning_numbers = [int(number.text) for number in winning_numbers_div[:5]]
 bonus_div = soup.find('div', {'class': 'powerball item-powerball'})
-bonus = int(bonus_div.text)
+if bonus_div:
+    bonus = int(bonus_div.text)
+else:
+    bonus = None
 
 # Check if user's numbers match winning numbers
 matches = []
