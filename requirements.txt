@@ -2,5 +2,6 @@ streamlit
 bs4
 datetime
 requests
+requests-html
 pandas
 selenium
