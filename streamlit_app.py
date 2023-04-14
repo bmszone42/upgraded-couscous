@@ -3,9 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service as ChromeService
 
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
@@ -30,27 +27,25 @@ def get_powerball_data(start_date, end_date):
 
 def get_mega_millions_data(start_date, end_date):
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
-    options = Options()
-    options.add_argument("--headless")
-    service = ChromeService(executable_path="./chromedriver")
-    driver = webdriver.Chrome(service=service, options=options)
+    session = HTMLSession()
+    response = session.get(url)
+    response.html.render()
 
-    data = driver.find_elements_by_css_selector(".row.pb-4.pt-4.border-bottom.border-secondary")
+    data = response.html.find(".row.pb-4.pt-4.border-bottom.border-secondary")
     results = []
 
     for draw in data:
-        draw_date = draw.find_element_by_css_selector(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
+        draw_date = draw.find(".col-sm-6.col-lg-4.pb-2.pb-md-0", first=True).text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers_list = draw.find_element_by_css_selector(".list-unstyled.winning_numbers")
-            numbers = [int(num.text) for num in numbers_list.find_elements_by_css_selector(".ball")] + \
-                      [int(num.text) for num in numbers_list.find_elements_by_css_selector(".ball.yellow")]
-            mega_ball = int(draw.find_element_by_css_selector(".ball.gold").text)
+            numbers_list = draw.find(".list-unstyled.winning_numbers", first=True)
+            numbers = [int(num.text) for num in numbers_list.find(".ball")] + \
+                      [int(num.text) for num in numbers_list.find(".ball.yellow")]
+            mega_ball = int(draw.find(".ball.gold", first=True).text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
 
-    driver.quit()
     return results
 
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
