@@ -49,6 +49,8 @@ if number5 in winning_numbers:
     matches.append(number5)
 
 # Display results
+st.write(soup.prettify())
+
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
 st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus}")
 if len(matches) == 0:
