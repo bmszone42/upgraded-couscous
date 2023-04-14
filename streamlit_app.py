@@ -16,7 +16,7 @@ def get_powerball_data(start_date, end_date):
         soup = BeautifulSoup(response.text, 'html.parser')
         # Extracting data for the provided date range
         datepicker_input = soup.find('input', {'id': 'datepicker-input'})
-        datepicker_input['value'] = start_date
+        #datepicker_input['value'] = start_date
         datepicker_input2 = soup.find('input', {'id': 'datepicker-input2'})
         datepicker_input2['value'] = end_date
         search_btn = soup.find('button', {'id': 'submit-date'})
