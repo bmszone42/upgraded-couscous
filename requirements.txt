@@ -1,5 +1,5 @@
 streamlit
-bs4
+beautifulsoup4
 datetime
 requests
 requests-html
