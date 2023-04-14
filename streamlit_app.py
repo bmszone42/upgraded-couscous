@@ -26,14 +26,11 @@ params = {
 response = requests.get(url, params=params)
 soup = BeautifulSoup(response.content, 'html.parser')
 
-# Get the most recent winning numbers
-winning_numbers_div = soup.find_all('div', {'class': 'item-powerball'})
-winning_numbers = [int(number.text) for number in winning_numbers_div[:5]]
-bonus_div = soup.find('div', {'class': 'powerball item-powerball'})
-if bonus_div:
-    bonus = int(bonus_div.text)
-else:
-    bonus = None
+# Assume that the HTML code containing the winning numbers is stored in a variable called html_code
+soup = BeautifulSoup(html_code, 'html.parser')
+winning_numbers = soup.select('div.game-ball-group div.white-balls, div.game-ball-group div.powerball')
+numbers = [int(number.text.strip()) for number in winning_numbers]
+st.write(numbers)
 
 # Check if user's numbers match winning numbers
 matches = []
