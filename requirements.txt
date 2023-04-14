@@ -1,4 +1,1 @@
 streamlit
-docx
-PyPDF2
-openai
