@@ -1,47 +1,58 @@
-import requests
-from bs4 import BeautifulSoup
-
-number_inputs = [1, 10, 23, 27, 33]
-bonus_input = 7
-
-import requests
-from bs4 import BeautifulSoup
 import streamlit as st
+import requests
+from bs4 import BeautifulSoup
 
-st.set_page_config(page_title="Lottery Checker")
+# Set default numbers
+default_numbers = [4, 8, 15, 16, 23]
+default_bonus_number = 42
 
-st.title("Lottery Checker")
+# Create inputs for user to enter numbers
+number1 = st.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
+number2 = st.number_input("Enter second number", min_value=1, max_value=69, value=default_numbers[1])
+number3 = st.number_input("Enter third number", min_value=1, max_value=69, value=default_numbers[2])
+number4 = st.number_input("Enter fourth number", min_value=1, max_value=69, value=default_numbers[3])
+number5 = st.number_input("Enter fifth number", min_value=1, max_value=69, value=default_numbers[4])
+bonus_number = st.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
 
-number_inputs = [1, 10, 23, 27, 33]
-bonus_input = 7
+# Get results from website
+url = 'https://www.powerball.com/check-your-numbers'
+params = {
+    'game': 'powerball',
+    'p': '',
+    'pn': '',
+    'pp': ''
+}
 
-number_inputs = st.multiselect("Select your numbers", range(1, 70), number_inputs)
-bonus_input = st.selectbox("Select your bonus number", range(1, 27), bonus_input)
+response = requests.get(url, params=params)
+soup = BeautifulSoup(response.content, 'html.parser')
 
-url = "https://www.powerball.com/previous-results"
-response = requests.get(url)
-soup = BeautifulSoup(response.content, "html.parser")
+# Get the most recent winning numbers
+winning_numbers_div = soup.find_all('div', {'class': 'item-powerball'})
+winning_numbers = [int(number.text) for number in winning_numbers_div[:5]]
+bonus_div = soup.find('div', {'class': 'powerball item-powerball'})
+bonus = int(bonus_div.text)
 
-winning_numbers = []
-for i in range(5):
-    winning_numbers.append(int(soup.find("div", class_="winning-numbers-red-ball").text))
-    soup = soup.find("div", class_="winning-numbers-white-balls")
-    winning_numbers.append(int(soup.contents[i].text))
+# Check if user's numbers match winning numbers
+matches = []
+if number1 in winning_numbers:
+    matches.append(number1)
+if number2 in winning_numbers:
+    matches.append(number2)
+if number3 in winning_numbers:
+    matches.append(number3)
+if number4 in winning_numbers:
+    matches.append(number4)
+if number5 in winning_numbers:
+    matches.append(number5)
 
-winning_bonus = int(soup.find("div", class_="winning-numbers-red-ball").text)
-
-st.write(f"Your numbers: {number_inputs}")
-st.write(f"Winning numbers: {winning_numbers}")
-st.write(f"Your bonus number: {bonus_input}")
-st.write(f"Winning bonus number: {winning_bonus}")
-
-matches = set(number_inputs).intersection(set(winning_numbers))
-
-if len(matches) == 5:
-    st.write("JACKPOT! You have won the grand prize!")
-elif len(matches) == 4:
-    st.write("Congratulations! You have won $1,000 a week for life!")
-elif len(matches) == 3:
-    st.write("Congratulations! You have won $20!")
+# Display results
+st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
+st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus}")
+if len(matches) == 0:
+    st.write("Sorry, you did not win any prizes.")
+elif len(matches) == 1:
+    st.write(f"Congratulations! You matched 1 number ({matches[0]}) and won a prize.")
 else:
-    st.write("Sorry, you did not win this time. Try again!")
+    st.write(f"Congratulations! You matched {len(matches)} numbers ({matches}) and won a prize.")
+if bonus_number == bonus:
+    st.write("You also matched the bonus number and won an additional prize!")
