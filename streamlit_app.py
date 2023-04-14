@@ -10,66 +10,59 @@ from bs4 import BeautifulSoup
 import datetime
 
 
-# Scrape Powerball data from official website for a given date range
-def get_powerball_data(start_date, end_date):
+import streamlit as st
+import requests
+from bs4 import BeautifulSoup
+import datetime
+import pandas as pd
+from requests_html import HTMLSession
+
+import requests
+from bs4 import BeautifulSoup
+import datetime
+
+
+# Scrape Powerball data from official website for the last 50 draws
+def get_powerball_data():
     url = "https://www.powerball.com/previous-results"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    data = soup.select(".result-item")
+    data = soup.select(".result-item")[:50]
     results = []
 
-    while True:
-        for draw in data:
-            draw_date = draw.select_one(".result-heading").text.strip()
-            draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    for draw in data:
+        draw_date = draw.select_one(".result-heading").text.strip()
+        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
-            if start_date <= draw_date <= end_date:
-                numbers = [int(num.text) for num in draw.select(".result-ball")]
-                powerball = int(draw.select_one(".result-powerball").text)
+        numbers = [int(num.text) for num in draw.select(".result-ball")]
+        powerball = int(draw.select_one(".result-powerball").text)
 
-                results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
-
-        next_page = soup.select_one(".load-more > a")
-        if not next_page:
-            break
-
-        response = requests.get(next_page["href"])
-        soup = BeautifulSoup(response.text, "html.parser")
-        data = soup.select(".result-item")
+        results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
 
     return results
 
 
-# Scrape Mega Millions data from official website for a given date range
-def get_mega_millions_data(start_date, end_date):
+# Scrape Mega Millions data from official website for the last 50 draws
+def get_mega_millions_data():
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")
+    data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")[:50]
     results = []
 
-     while True:
-        for draw in data:
-            draw_date = draw.select_one(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
-            draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
+    for draw in data:
+        draw_date = draw.select_one(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
+        draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
-            if start_date <= draw_date <= end_date:
-                numbers_list = draw.select_one(".list-unstyled.winning_numbers")
-                numbers = [int(num.text) for num in numbers_list.select(".ball")] + \
-                          [int(num.text) for num in numbers_list.select(".ball.gold")]
-                mega_ball = int(draw.select_one(".ball.megaball").text)
+        numbers_list = draw.select_one(".list-unstyled.winning_numbers")
+        numbers = [int(num.text) for num in numbers_list.select(".ball")] + \
+                  [int(num.text) for num in numbers_list.select(".ball.gold")]
+        mega_ball = int(draw.select_one(".ball.megaball").text)
 
-                results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
-
-        next_page = soup.select_one(".pagination > .next > a")
-        if not next_page:
-            break
-
-        response = requests.get(next_page["href"])
-        soup = BeautifulSoup(response.text, "html.parser")
-        data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")
+        results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
 
     return results
+
 
 def get_winning_combination(lottery_data, user_numbers, bonus_number):
     for draw in lottery_data:
@@ -124,17 +117,11 @@ def app():
     else:
         bonus_number = st.number_input("Enter your Mega Millions bonus number:", value=25, min_value=1, max_value=50)
 
-    start_date = st.date_input("Select start date:")
-    end_date = st.date_input("Select end date:")
-
     if st.button("Check Numbers"):
-        start_date_str = start_date.strftime("%Y-%m-%d")
-        end_date_str = end_date.strftime("%Y-%m-%d")
-
         if lottery_type == "Powerball":
-            lottery_data = get_powerball_data(start_date_str, end_date_str)
+            lottery_data = get_powerball_data()
         else:
-            lottery_data = get_mega_millions_data(start_date_str, end_date_str)
+            lottery_data = get_mega_millions_data()
 
         winning_combination = get_winning_combination(lottery_data, user_numbers, bonus_number)
 
@@ -143,14 +130,20 @@ def app():
         else:
             st.warning("Sorry, you did not win.")
 
-        st.subheader("Numbers drawn for the queried date range:")
+        st.subheader("Numbers drawn for the latest drawing:")
+
+        latest_draw = lottery_data[0]
 
         data = {
-            "Date": [draw["date"] for draw in lottery_data],
-            "Numbers Drawn": [", ".join(str(num) for num in sorted(draw["winning_numbers"])) for draw in lottery_data],
-            "Bonus Number": [draw["bonus_number"] for draw in lottery_data],
+            "Date": [latest_draw["date"]],
+            "Numbers Drawn": [", ".join(str(num) for num in sorted(latest_draw["winning_numbers"]))],
+            "Bonus Number": [latest_draw["bonus_number"]],
         }
         df = pd.DataFrame(data)
         st.write(df)
+        
+    st.subheader("Disclaimer")
+    st.write("This tool is for informational purposes only. While we strive to ensure the accuracy of the information provided, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability or availability with respect to the website or the information, products, services, or related graphics contained on the website for any purpose. Any reliance you place on such information is therefore strictly at your own risk.")    
+ 
 if __name__ == "__main__":
     app()
