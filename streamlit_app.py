@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 # Set default numbers
 default_numbers = [4, 8, 15, 16, 23]
-default_bonus_number = 42
+default_bonus_number = 1
 
 # Create inputs for user to enter numbers
 number1 = st.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
@@ -56,3 +56,5 @@ else:
     st.write(f"Congratulations! You matched {len(matches)} numbers ({matches}) and won a prize.")
 if bonus_number == bonus:
     st.write("You also matched the bonus number and won an additional prize!")
+
+   
