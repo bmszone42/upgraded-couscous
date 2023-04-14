@@ -58,7 +58,8 @@ if number5 in winning_numbers:
 
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
-st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus}")
+st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus_number}")
+
 if len(matches) == 0:
     st.write("Sorry, you did not win any prizes.")
 elif len(matches) == 1:
