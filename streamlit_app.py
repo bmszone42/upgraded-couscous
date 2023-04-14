@@ -119,37 +119,22 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 st.write("The winning numbers are:")
 st.write(winning_df)
 
-# Check if user's numbers match winning numbers
-matches = []
-for numbers in winning_numbers:
-    match_count = 0
-    for num in [number1, number2, number3, number4, number5]:
-        if num in numbers:
-            match_count += 1
-    matches.append(match_count)
-    
-user_numbers = [number1, number2, number3, number4, number5]
-
-
 # Define user_numbers
 user_numbers = [number1, number2, number3, number4, number5]
 
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
-st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus_number}")
 
-# Check if the user matched the winning numbers
-matches = set(user_numbers).intersection(winning_numbers)
-matched_bonus = bonus_number in winning_powerballs
+for i, numbers in enumerate(winning_numbers):
+    # Check if the user matched the winning numbers
+    matches = set(user_numbers).intersection(numbers[:-1])  # Exclude the last number (powerball)
+    matched_bonus = bonus_number == numbers[-1]  # Check if the bonus number matches the powerball
 
+    # Display the number of matches and bonus number match
+    if len(matches) == 0 and not matched_bonus:
+        st.write(f"For the drawing date {drawing_dates[i]}, you did not win any prizes.")
+    else:
+        result = f"For the drawing date {drawing_dates[i]}, you matched {len(matches)} numbers ({', '.join(map(str, matches))})"
+        if matched_bonus:
+            result += f" and the bonus number ({bonus
 
-
-# Display the number of matches and bonus number match
-if len(matches) == 0 and not matched_bonus:
-    st.write("Sorry, you did not win any prizes.")
-else:
-    result = f"Congratulations! You matched {len(matches)} numbers ({', '.join(map(str, matches))})"
-    if matched_bonus:
-        result += f" and the bonus number ({bonus_number})"
-    result += " and won a prize."
-    st.write(result)
