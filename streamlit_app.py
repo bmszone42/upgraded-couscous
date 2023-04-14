@@ -6,6 +6,7 @@ import pandas as pd
 from requests_html import HTMLSession
 
 
+# Scrape Powerball data from official website for a given date range
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
     response = requests.get(url)
@@ -25,6 +26,7 @@ def get_powerball_data(start_date, end_date):
 
     return results
 
+# Scrape Mega Millions data from official website for a given date range
 def get_mega_millions_data(start_date, end_date):
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
