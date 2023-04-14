@@ -131,6 +131,9 @@ for numbers in winning_numbers:
 user_numbers = [number1, number2, number3, number4, number5]
 
 
+# Define user_numbers
+user_numbers = [number1, number2, number3, number4, number5]
+
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
 st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus_number}")
