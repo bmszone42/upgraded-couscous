@@ -2,3 +2,4 @@ streamlit
 bs4
 datetime
 requests
+pandas
