@@ -24,13 +24,23 @@ params = {
 }
 
 response = requests.get(url, params=params)
-soup = BeautifulSoup(response.content, 'html.parser')
-
-# Assume that the HTML code containing the winning numbers is stored in a variable called html_code
+# Assume that you have retrieved the HTML code and assigned it to a variable called html_code
 soup = BeautifulSoup(html_code, 'html.parser')
-winning_numbers = soup.select('div.game-ball-group div.white-balls, div.game-ball-group div.powerball')
-numbers = [int(number.text.strip()) for number in winning_numbers]
-st.write(numbers)
+
+# Find all the divs that contain the winning numbers and their parent divs
+winning_divs = soup.select('div.game-ball-group')
+
+# Extract the winning numbers from each winning div
+winning_numbers = []
+for div in winning_divs:
+    numbers = div.select('div.white-balls.item-powerball')
+    powerball = div.select('div.powerball.item-powerball')
+    winning_numbers.append([int(n.text) for n in numbers] + [int(p.text) for p in powerball])
+
+# Print the winning numbers
+st.write("The winning numbers are:")
+for numbers in winning_numbers:
+    st.write(numbers)
 
 # Check if user's numbers match winning numbers
 matches = []
