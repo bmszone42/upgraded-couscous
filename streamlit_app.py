@@ -116,7 +116,7 @@ if st.button("Check Numbers"):
     else:
         st.warning("Sorry, you did not win.")
         
-        st.subheader("Numbers drawn for the queried date range:")
+    st.subheader("Numbers drawn for the queried date range:")
         
     data = {
         "Date": [draw["date"] for draw in lottery_data],
