@@ -8,20 +8,18 @@ from requests_html import HTMLSession
 
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
-    session = HTMLSession()
-    response = session.get(url)
-    response.html.render()
-
-    data = response.html.find(".result-item")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    data = soup.select(".result-item")
     results = []
 
     for draw in data:
-        draw_date = draw.find(".result-heading", first=True).text.strip()
+        draw_date = draw.select_one(".result-heading").text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers = [int(num.text) for num in draw.find(".result-ball")]
-            powerball = int(draw.find(".result-powerball", first=True).text)
+            numbers = [int(num.text) for num in draw.select(".result-ball")]
+            powerball = int(draw.select_one(".result-powerball").text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": powerball})
 
@@ -29,22 +27,20 @@ def get_powerball_data(start_date, end_date):
 
 def get_mega_millions_data(start_date, end_date):
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
-    session = HTMLSession()
-    response = session.get(url)
-    response.html.render()
-
-    data = response.html.find(".row.pb-4.pt-4.border-bottom.border-secondary")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    data = soup.select(".row.pb-4.pt-4.border-bottom.border-secondary")
     results = []
 
     for draw in data:
-        draw_date = draw.find(".col-sm-6.col-lg-4.pb-2.pb-md-0", first=True).text.strip()
+        draw_date = draw.select_one(".col-sm-6.col-lg-4.pb-2.pb-md-0").text.strip()
         draw_date = datetime.datetime.strptime(draw_date, "%m/%d/%Y").strftime("%Y-%m-%d")
 
         if start_date <= draw_date <= end_date:
-            numbers_list = draw.find(".list-unstyled.winning_numbers", first=True)
-            numbers = [int(num.text) for num in numbers_list.find(".ball")] + \
-                      [int(num.text) for num in numbers_list.find(".ball.yellow")]
-            mega_ball = int(draw.find(".ball.gold", first=True).text)
+            numbers_list = draw.select_one(".list-unstyled.winning_numbers")
+            numbers = [int(num.text) for num in numbers_list.select(".ball")] + \
+                      [int(num.text) for num in numbers_list.select(".ball.yellow")]
+            mega_ball = int(draw.select_one(".ball.gold").text)
 
             results.append({"date": draw_date, "winning_numbers": set(numbers), "bonus_number": mega_ball})
 
