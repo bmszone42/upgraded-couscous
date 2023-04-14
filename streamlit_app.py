@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import pandas as pd
 
 def get_powerball_data(start_date, end_date):
     url = f"https://www.powerball.com/api/v1/numbers/powerball?_format=json&min=1&max=5&startDate={start_date}&endDate={end_date}"
