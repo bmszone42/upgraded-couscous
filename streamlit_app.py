@@ -18,7 +18,7 @@ bonus_input = 7
 number_inputs = st.multiselect("Select your numbers", range(1, 70), number_inputs)
 bonus_input = st.selectbox("Select your bonus number", range(1, 27), bonus_input)
 
-url = "https://www.lotteryusa.com/tennessee/cash4life/year"
+url = "https://www.powerball.com/previous-results"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
 
