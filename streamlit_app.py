@@ -106,9 +106,9 @@ default_powerball_numbers = "18, 29, 35, 44, 60"
 default_mega_millions_numbers = "8, 33, 38, 50, 53"
 
 if lottery_type == "Powerball":
-    user_numbers_input = st.text_input("", value=default_powerball_numbers, label_visibility='collapsed')
+    user_numbers_input = st.text_input("", value=default_powerball_numbers)
 else:
-    user_numbers_input = st.text_input("", value=default_mega_millions_numbers, label_visibility='collapsed')
+    user_numbers_input = st.text_input("", value=default_mega_millions_numbers)
 user_numbers = set(map(int, user_numbers_input.split(",")))
 
 if lottery_type == "Powerball":
