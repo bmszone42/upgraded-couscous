@@ -1,29 +1,47 @@
 import requests
 from bs4 import BeautifulSoup
 
-# Define the URL of the Powerball winning numbers page
-url = 'https://www.powerball.com/numbers/'
+number_inputs = [1, 10, 23, 27, 33]
+bonus_input = 7
 
-# Retrieve the page contents
+import requests
+from bs4 import BeautifulSoup
+import streamlit as st
+
+st.set_page_config(page_title="Lottery Checker")
+
+st.title("Lottery Checker")
+
+number_inputs = [1, 10, 23, 27, 33]
+bonus_input = 7
+
+number_inputs = st.multiselect("Select your numbers", range(1, 70), number_inputs)
+bonus_input = st.selectbox("Select your bonus number", range(1, 27), bonus_input)
+
+url = "https://www.lotteryusa.com/tennessee/cash4life/year"
 response = requests.get(url)
-soup = BeautifulSoup(response.content, 'html.parser')
+soup = BeautifulSoup(response.content, "html.parser")
 
-# Extract the latest winning numbers
 winning_numbers = []
-for div in soup.find_all('div', class_='winning-numbers-white-ball'):
-    winning_numbers.append(int(div.text))
-winning_numbers.append(int(soup.find('div', class_='winning-numbers-red-ball').text))
+for i in range(5):
+    winning_numbers.append(int(soup.find("div", class_="winning-numbers-red-ball").text))
+    soup = soup.find("div", class_="winning-numbers-white-balls")
+    winning_numbers.append(int(soup.contents[i].text))
 
-print('Latest Powerball winning numbers:', winning_numbers)
-# Prompt the user to enter their numbers
-user_numbers = input('Enter your Powerball numbers (5 white balls between 1 and 69, and 1 red ball between 1 and 26, separated by commas): ')
-user_numbers = [int(x) for x in user_numbers.split(',')]
+winning_bonus = int(soup.find("div", class_="winning-numbers-red-ball").text)
 
-# Check if the user's numbers match the winning numbers
-num_correct_white_balls = len(set(user_numbers).intersection(set(winning_numbers[:-1])))
-num_correct_red_ball = user_numbers[-1] == winning_numbers[-1]
+st.write(f"Your numbers: {number_inputs}")
+st.write(f"Winning numbers: {winning_numbers}")
+st.write(f"Your bonus number: {bonus_input}")
+st.write(f"Winning bonus number: {winning_bonus}")
 
-if num_correct_white_balls == 5 and num_correct_red_ball:
-    print('Congratulations! You won the Powerball jackpot!')
+matches = set(number_inputs).intersection(set(winning_numbers))
+
+if len(matches) == 5:
+    st.write("JACKPOT! You have won the grand prize!")
+elif len(matches) == 4:
+    st.write("Congratulations! You have won $1,000 a week for life!")
+elif len(matches) == 3:
+    st.write("Congratulations! You have won $20!")
 else:
-    print('Sorry, your numbers did not match the winning numbers.')
+    st.write("Sorry, you did not win this time. Try again!")
