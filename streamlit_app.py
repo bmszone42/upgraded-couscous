@@ -96,3 +96,13 @@ if st.button("Check Numbers"):
         st.success(f"Congratulations! You got a {winning_combination}!")
     else:
         st.warning("Sorry, you did not win.")
+        
+        st.subheader("Numbers drawn for the queried date range:")
+        
+    data = {
+        "Date": [draw["date"] for draw in lottery_data],
+        "Numbers Drawn": [", ".join(str(num) for num in sorted(draw["winning_numbers"])) for draw in lottery_data],
+        "Bonus Number": [draw["bonus_number"] for draw in lottery_data],
+    }
+    df = pd.DataFrame(data)
+    st.write(df)
