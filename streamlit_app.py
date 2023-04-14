@@ -24,26 +24,26 @@ params = {
 }
 
 response = requests.get(url, params=params)
-html_code = response.text
+html_code = response.content
 soup = BeautifulSoup(html_code, 'html.parser')
 
 # Find all the divs that contain the winning numbers and their parent divs
 winning_divs = soup.select('div.game-ball-group')
 
-# Extract the winning numbers from each winning div
+# Extract the winning numbers and dates from each winning div
 winning_numbers = []
-dates = []
+winning_dates = []
 for div in winning_divs:
-    date = div.select_one('h5.card-title').text.strip()
+    date = div.select_one('h2.card-title').text.strip()
     numbers = div.select('div.white-balls.item-powerball')
     powerball = div.select('div.powerball.item-powerball')
     winning_numbers.append([int(n.text) for n in numbers] + [int(p.text) for p in powerball])
-    dates.append(date)
+    winning_dates.append(date)
 
-# Print the winning numbers
-st.write("The winning numbers and dates are:")
-for i in range(len(winning_numbers)):
-    st.write(f"{dates[i]}: {winning_numbers[i]}")
+# Print the winning numbers and dates
+st.write("The winning numbers are:")
+for date, numbers in zip(winning_dates, winning_numbers):
+    st.write(f"{date}: {numbers}")
 
 # Check if user's numbers match winning numbers
 matches = []
@@ -61,11 +61,3 @@ if number5 in winning_numbers:
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
 st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus_number}")
-if len(matches) == 0:
-    st.write("Sorry, you did not win any prizes.")
-elif len(matches) == 1:
-    st.write(f"Congratulations! You matched 1 number ({matches[0]}) and won a prize.")
-else:
-    st.write(f"Congratulations! You matched {len(matches)} numbers ({matches}) and won a prize.")
-if bonus_number in winning_numbers:
-    st.write("You also matched the bonus number and won an additional prize!")
