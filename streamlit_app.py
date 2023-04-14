@@ -24,8 +24,9 @@ params = {
 }
 
 response = requests.get(url, params=params)
-# Assume that you have retrieved the HTML code and assigned it to a variable called html_code
-soup = BeautifulSoup(html_code, 'html.parser')
+
+# Parse the HTML code using BeautifulSoup
+soup = BeautifulSoup(response.content, 'html.parser')
 
 # Find all the divs that contain the winning numbers and their parent divs
 winning_divs = soup.select('div.game-ball-group')
@@ -56,8 +57,6 @@ if number5 in winning_numbers:
     matches.append(number5)
 
 # Display results
-st.write(soup.prettify())
-
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
 st.write(f"The winning numbers are {winning_numbers} and the bonus number is {bonus}")
 if len(matches) == 0:
@@ -66,7 +65,7 @@ elif len(matches) == 1:
     st.write(f"Congratulations! You matched 1 number ({matches[0]}) and won a prize.")
 else:
     st.write(f"Congratulations! You matched {len(matches)} numbers ({matches}) and won a prize.")
-if bonus_number == bonus:
+if bonus_number in winning_numbers:
     st.write("You also matched the bonus number and won an additional prize!")
 
    
