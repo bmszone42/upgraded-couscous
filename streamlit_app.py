@@ -5,12 +5,14 @@ import datetime
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 def get_powerball_data(start_date, end_date):
     url = "https://www.powerball.com/previous-results"
     options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+    service = ChromeService(executable_path="./chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
 
     data = driver.find_elements_by_css_selector(".result-item")
@@ -33,8 +35,8 @@ def get_mega_millions_data(start_date, end_date):
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     options = Options()
     options.add_argument("--headless")
-    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
-    driver.get(url)
+    service = ChromeService(executable_path="./chromedriver")
+    driver = webdriver.Chrome(service=service, options=options)
 
     data = driver.find_elements_by_css_selector(".row.pb-4.pt-4.border-bottom.border-secondary")
     results = []
