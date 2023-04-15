@@ -100,13 +100,13 @@ response = requests.get(url, params=params)
 soup = BeautifulSoup(response.content, 'html.parser')
 
 # Find all the divs that contain the winning numbers, their parent divs and the drawing dates
-winning_data = soup.select('div.game-ball-group-container')
+winning_data = soup.select('#searchNumbersResults > div.d-flex.gap-3.flex-column > a')
 
 # Extract the winning numbers and dates from each winning div
 winning_numbers = []
 drawing_dates = []
 for data in winning_data:
-    date = data.select_one('div.draw-date').text.strip()
+    date = data.select_one('div > div > div:nth-child(1) > div > h5').text.strip()
     numbers = data.select('div.white-balls.item-powerball')
     powerball = data.select('div.powerball.item-powerball')
     winning_numbers.append([int(n.text) for n in numbers] + [int(p.text) for p in powerball])
