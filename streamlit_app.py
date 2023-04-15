@@ -8,33 +8,37 @@ st.markdown(title, unsafe_allow_html=True)
 
 import requests
 from bs4 import BeautifulSoup
-
 def get_megamillions_data():
-    # Request page content and parse it using BeautifulSoup
-    url = 'https://www.megamillions.com/winning-numbers/'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    # Find the table containing the drawing data
-    table = soup.find('table', {'class': 'table winning-numbers-table'})
-
-    # Find all rows in the table, skipping the header row
-    rows = table.find_all('tr')[1:]
-
-    # Extract drawing dates and winning numbers from each row
+    url = 'https://www.megamillions.com/winning-numbers/last-25-drawings'
+    try:
+        r = requests.get(url)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        table = soup.find('table')
+        rows = table.find_all('tr')[1:]
+    except AttributeError:
+        print(f"Error: Failed to find table data from {url}")
+        return [], []
+    
     drawing_dates = []
     winning_numbers = []
 
     for row in rows:
         cols = row.find_all('td')
-        drawing_dates.append(cols[0].text.strip())
+        drawing_date = cols[0].text.strip()
+        drawing_dates.append(drawing_date)
 
-        numbers = cols[1].text.strip().split()
+        numbers = []
+        for col in cols[1:6]:
+            numbers.append(col.text.strip())
+        mega_ball = cols[6].text.strip()
+        numbers.append(mega_ball)
+
         winning_numbers.append(numbers)
 
-    # Create and return a Pandas DataFrame with the drawing data
+    # Create dataframe
     winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
-    return winning_df
+
+    return drawing_dates, winning_numbers
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
