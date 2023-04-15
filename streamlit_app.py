@@ -10,24 +10,31 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_megamillions_data():
-    url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
+    # Request page content and parse it using BeautifulSoup
+    url = 'https://www.megamillions.com/winning-numbers/'
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find the table containing the drawing data
+    table = soup.find('table', {'class': 'table winning-numbers-table'})
+
+    # Find all rows in the table, skipping the header row
+    rows = table.find_all('tr')[1:]
+
+    # Extract drawing dates and winning numbers from each row
     drawing_dates = []
     winning_numbers = []
-    for drawing in soup.find_all('a', class_='prevDrawItem'):
-        date = drawing.find('h5', class_='drawItemDate').text
-        numbers = [int(num.text) for num in drawing.find_all('li', class_='ball')]
-        megaplier = drawing.find('span', class_='megaplier').text
-        drawing_dates.append(date)
-        winning_numbers.append({
-            'numbers': numbers,
-            'megaplier': megaplier
-        })
-    return {
-        'drawing_dates': drawing_dates,
-        'winning_numbers': winning_numbers
-    }
+
+    for row in rows:
+        cols = row.find_all('td')
+        drawing_dates.append(cols[0].text.strip())
+
+        numbers = cols[1].text.strip().split()
+        winning_numbers.append(numbers)
+
+    # Create and return a Pandas DataFrame with the drawing data
+    winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
+    return winning_df
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
