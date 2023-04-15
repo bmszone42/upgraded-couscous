@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
-title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>Lottery Checker -- Let's Check Our Numbers</h1>"
+title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall Checker -- Let's Check Our Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
 
