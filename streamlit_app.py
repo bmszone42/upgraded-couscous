@@ -6,28 +6,28 @@ from bs4 import BeautifulSoup
 title = "<h2 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker -- Let's Check Our Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
+import requests
+from bs4 import BeautifulSoup
+
 def get_megamillions_data():
-    html = get_megamillions_html()
-    soup = BeautifulSoup(html, "html.parser")
-    
-    date_elements = soup.select(".drawItemDate")
-    drawing_dates = [datetime.strptime(date.text, "%m/%d/%Y").date() for date in date_elements]
-
-    winning_number_elements = soup.select(".drawItemWinNum")
+    url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    drawing_dates = []
     winning_numbers = []
-    for num_set in winning_number_elements:
-        nums = num_set.select(".ball")
-        numbers = [int(n.text) for n in nums[:-1]]  # Excluding the last element, which is the bonus number
-        bonus_number = int(nums[-1].text)  # The last element is the bonus number
-        winning_numbers.append(numbers + [bonus_number])
-
-    return drawing_dates, winning_numbers
-
-def get_megamillions_html():
-    url = 'https://www.megamillions.com/winning-numbers/previous-drawings'
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-    response = requests.get(url, headers=headers)
-    return response.content
+    for drawing in soup.find_all('a', class_='prevDrawItem'):
+        date = drawing.find('h5', class_='drawItemDate').text
+        numbers = [int(num.text) for num in drawing.find_all('li', class_='ball')]
+        megaplier = drawing.find('span', class_='megaplier').text
+        drawing_dates.append(date)
+        winning_numbers.append({
+            'numbers': numbers,
+            'megaplier': megaplier
+        })
+    return {
+        'drawing_dates': drawing_dates,
+        'winning_numbers': winning_numbers
+    }
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
