@@ -8,35 +8,25 @@ st.markdown(title, unsafe_allow_html=True)
 
 import requests
 from bs4 import BeautifulSoup
+
 def get_megamillions_data():
-    url = 'https://www.megamillions.com/winning-numbers/last-25-drawings'
-    try:
-        r = requests.get(url)
-        soup = BeautifulSoup(r.content, 'html.parser')
-        table = soup.find('table')
-        rows = table.find_all('tr')[1:]
-    except AttributeError:
-        print(f"Error: Failed to find table data from {url}")
-        return [], []
+    url = 'https://www.megamillions.com/winning-numbers/previous-drawings'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    table = soup.find('div', {'class': 'previousDrawingList'})
     
     drawing_dates = []
     winning_numbers = []
-
-    for row in rows:
-        cols = row.find_all('td')
-        drawing_date = cols[0].text.strip()
-        drawing_dates.append(drawing_date)
-
-        numbers = []
-        for col in cols[1:6]:
-            numbers.append(col.text.strip())
-        mega_ball = cols[6].text.strip()
-        numbers.append(mega_ball)
-
-        winning_numbers.append(numbers)
-
-    # Create dataframe
-    winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
+    
+    for row in table.find_all('a', {'class': 'prevDrawItem'}):
+        date = row.find('h5', {'class': 'drawItemDate'}).text.strip()
+        numbers = row.find_all('li', {'class': 'ball'})[:-1]
+        megaball = row.find('li', {'class': 'ball yellowBall'}).text.strip()
+        megaplier = row.find('span', {'class': 'megaplier'}).text.strip()
+        
+        nums = [int(num.text.strip()) for num in numbers]
+        drawing_dates.append(date)
+        winning_numbers.append((nums, int(megaball), megaplier))
 
     return drawing_dates, winning_numbers
 
