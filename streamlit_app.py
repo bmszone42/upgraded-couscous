@@ -18,34 +18,22 @@ soup = BeautifulSoup(response.content, 'html.parser')
 
 st.write(soup.prettify())
 
-def get_megamillions_data():
-    # Make a GET request to the Mega Millions webpage
-    url = 'https://www.megamillions.com/winning-numbers/previous-drawings'
-    response = requests.get(url)
+import requests
+from bs4 import BeautifulSoup
 
-    # Parse the HTML content of the response with BeautifulSoup
+def get_megamillions_data():
+    url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    # Find the table containing the previous Mega Millions drawing data
-    table = soup.find('div', {'class': 'previousDrawingList'})
+    latest_date_elem = soup.find('span', {'id': 'lastestDate'})
+    latest_date = latest_date_elem.text.strip()
 
-    # Extract the drawing dates and winning numbers from the table rows
-    drawing_dates = []
-    winning_numbers = []
-    for row in table.find_all('a', {'class': 'prevDrawItem'}):
-        # Extract the drawing date from the row's header element
-        date_string = row.find('h5', {'class': 'drawItemDate'}).text.strip()
-        drawing_date = datetime.datetime.strptime(date_string, '%m/%d/%Y').date()
-        drawing_dates.append(drawing_date)
+    winning_numbers_elems = soup.find_all('li', {'class': ['ball', 'yellowBall', 'megaplier']})
+    winning_numbers = [elem.text.strip() for elem in winning_numbers_elems]
 
-        # Extract the winning numbers and megaplier from the row's number list and span elements
-        numbers_list = row.find('ul', {'class': 'numbers'})
-        winning_numbers_row = [int(num.text.strip()) for num in numbers_list.find_all('li', {'class': 'ball'})]
-        winning_numbers_row.append(int(numbers_list.find('li', {'class': 'ball yellowBall pastNumMB'}).text.strip()))
-        winning_numbers_row.append(int(row.find('span', {'class': 'megaplier pastNumMP'}).text.strip()[:-1]))
-        winning_numbers.append(winning_numbers_row)
+    return latest_date, winning_numbers
 
-    return drawing_dates, winning_numbers
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
