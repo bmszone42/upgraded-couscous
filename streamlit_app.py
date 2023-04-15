@@ -54,23 +54,23 @@ st.write(winning_df)
 
 # Define user_numbers
 user_numbers = [number1, number2, number3, number4, number5]
-
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
 
+winning_dates = []
 for i, numbers in enumerate(winning_numbers):
     # Check if the user matched the winning numbers
     matches = set(user_numbers).intersection(numbers[:-1])  # Exclude the last number (powerball)
     matched_bonus = bonus_number == numbers[-1]  # Check if the bonus number matches the powerball
 
-    # Display the number of matches and bonus number match
-    if len(matches) == 0 and not matched_bonus:
-        st.write(f"For the drawing date {drawing_dates[i]}, you did not win any prizes.")
-    else:
-        result = f"For the drawing date {drawing_dates[i]}, you matched {len(matches)} numbers ({', '.join(map(str, matches))})"
-        if matched_bonus:
-            result += f" and the bonus number ({bonus_number})"
-        result += " and won a prize."
-        st.write(result)
+    # If the user has matched any numbers or the bonus number, add the drawing date to the winning_dates list
+    if len(matches) > 0 or matched_bonus:
+        winning_dates.append(drawing_dates[i])
 
+if len(winning_dates) == 0:
+    st.write("No winners.")
+else:
+    st.write("You won on the following drawing dates:")
+    for date in winning_dates:
+        st.write(date)
 
