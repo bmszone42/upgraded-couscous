@@ -7,33 +7,22 @@ title = "<h2 style='text-align: center; font-family: Arial, sans-serif; color: b
 st.markdown(title, unsafe_allow_html=True)
 
 def get_megamillions_data():
-    url = "https://www.megamillions.com/Winning-Numbers"  # Update the URL if necessary
+    html = get_megamillions_html()
+    soup = BeautifulSoup(html, "html.parser")
+    
+    date_elements = soup.select(".drawItemDate")
+    drawing_dates = [datetime.strptime(date.text, "%m/%d/%Y").date() for date in date_elements]
 
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    draw_items = soup.find_all('div', class_='drawItem')
-
-    dates = []
+    winning_number_elements = soup.select(".drawItemWinNum")
     winning_numbers = []
-    bonus_numbers = []
+    for num_set in winning_number_elements:
+        nums = num_set.select(".ball")
+        numbers = [int(n.text) for n in nums[:-1]]  # Excluding the last element, which is the bonus number
+        bonus_number = int(nums[-1].text)  # The last element is the bonus number
+        winning_numbers.append(numbers + [bonus_number])
 
-    for draw_item in draw_items:
-        date = draw_item.find('h5', class_='drawItemDate').text
-        numbers = draw_item.find_all('li', class_='ball')
-        bonus_number = draw_item.find('li', class_='ball yellowBall pastNumMB')
+    return drawing_dates, winning_numbers
 
-        dates.append(date)
-        winning_numbers.append([int(number.text) for number in numbers[:-1]])
-        bonus_numbers.append(int(bonus_number.text))
-
-    return dates, winning_numbers, bonus_numbers
-
-# # Example usage and printing the data
-# mm_dates, mm_numbers, mm_bonus_numbers = get_megamillions_data()
-# st.write("Mega Millions Dates:", mm_dates)
-# st.write("Mega Millions Numbers:", mm_numbers)
-# st.write("Mega Millions Bonus Numbers:", mm_bonus_numbers)
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
