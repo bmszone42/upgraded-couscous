@@ -136,5 +136,8 @@ for i, numbers in enumerate(winning_numbers):
     else:
         result = f"For the drawing date {drawing_dates[i]}, you matched {len(matches)} numbers ({', '.join(map(str, matches))})"
         if matched_bonus:
-            result += f" and the bonus number ({bonus
+            result += f" and the bonus number ({bonus_number})"
+        result += " and won a prize."
+        st.write(result)
+
 
