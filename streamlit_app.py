@@ -29,11 +29,11 @@ def get_megamillions_data():
 
     return dates, winning_numbers, bonus_numbers
 
-# Example usage and printing the data
-mm_dates, mm_numbers, mm_bonus_numbers = get_megamillions_data()
-st.write("Mega Millions Dates:", mm_dates)
-st.write("Mega Millions Numbers:", mm_numbers)
-st.write("Mega Millions Bonus Numbers:", mm_bonus_numbers)
+# # Example usage and printing the data
+# mm_dates, mm_numbers, mm_bonus_numbers = get_megamillions_data()
+# st.write("Mega Millions Dates:", mm_dates)
+# st.write("Mega Millions Numbers:", mm_numbers)
+# st.write("Mega Millions Bonus Numbers:", mm_bonus_numbers)
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
