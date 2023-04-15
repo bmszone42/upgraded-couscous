@@ -65,9 +65,9 @@ for data in winning_data:
 # Create a DataFrame with the winning numbers and dates
 winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
 
-# Display the winning numbers in a DataFrame
-st.write("The winning numbers are:")
-st.write(winning_df)
+# # Display the winning numbers in a DataFrame
+# st.write("The winning numbers are:")
+# st.write(winning_df)
 
 # Display the winning numbers in an HTML table
 st.write("The winning numbers are:")
