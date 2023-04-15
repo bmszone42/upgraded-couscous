@@ -73,6 +73,8 @@ st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
 user_numbers = [number1, number2, number3, number4, number5]
 # Display results
 st.write(f"You entered the numbers {number1}, {number2}, {number3}, {number4}, {number5}, and {bonus_number}")
+entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
+st.markdown(entered_numbers, unsafe_allow_html=True)
 
 def calculate_prize(matched_numbers, matched_bonus):
     if matched_numbers == 5 and matched_bonus:
