@@ -9,24 +9,35 @@ st.markdown(title, unsafe_allow_html=True)
 import requests
 from bs4 import BeautifulSoup
 
+import requests
+from bs4 import BeautifulSoup
+
 def get_megamillions_data():
+    # Make a GET request to the Mega Millions webpage
     url = 'https://www.megamillions.com/winning-numbers/previous-drawings'
     response = requests.get(url)
+
+    # Parse the HTML content of the response with BeautifulSoup
     soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find the table containing the previous Mega Millions drawing data
     table = soup.find('div', {'class': 'previousDrawingList'})
-    
+
+    # Extract the drawing dates and winning numbers from the table rows
     drawing_dates = []
     winning_numbers = []
-    
     for row in table.find_all('a', {'class': 'prevDrawItem'}):
-        date = row.find('h5', {'class': 'drawItemDate'}).text.strip()
-        numbers = row.find_all('li', {'class': 'ball'})[:-1]
-        megaball = row.find('li', {'class': 'ball yellowBall'}).text.strip()
-        megaplier = row.find('span', {'class': 'megaplier'}).text.strip()
-        
-        nums = [int(num.text.strip()) for num in numbers]
-        drawing_dates.append(date)
-        winning_numbers.append((nums, int(megaball), megaplier))
+        # Extract the drawing date from the row's header element
+        date_string = row.find('h5', {'class': 'drawItemDate'}).text.strip()
+        drawing_date = datetime.datetime.strptime(date_string, '%m/%d/%Y').date()
+        drawing_dates.append(drawing_date)
+
+        # Extract the winning numbers and megaplier from the row's number list and span elements
+        numbers_list = row.find('ul', {'class': 'numbers'})
+        winning_numbers_row = [int(num.text.strip()) for num in numbers_list.find_all('li', {'class': 'ball'})]
+        winning_numbers_row.append(int(numbers_list.find('li', {'class': 'ball yellowBall pastNumMB'}).text.strip()))
+        winning_numbers_row.append(int(row.find('span', {'class': 'megaplier pastNumMP'}).text.strip()[:-1]))
+        winning_numbers.append(winning_numbers_row)
 
     return drawing_dates, winning_numbers
 
