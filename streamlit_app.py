@@ -9,31 +9,21 @@ st.markdown(title, unsafe_allow_html=True)
 import requests
 from bs4 import BeautifulSoup
 
-
-url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
-
-response = requests.get(url)
-
-soup = BeautifulSoup(response.content, 'html.parser')
-
-st.write(soup.prettify())
-
-import requests
-from bs4 import BeautifulSoup
-
 def get_megamillions_data():
-    url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
+    url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-
-    latest_date_elem = soup.find('span', {'id': 'lastestDate'})
-    latest_date = latest_date_elem.text.strip()
-
-    winning_numbers_elems = soup.find_all('li', {'class': ['ball', 'yellowBall', 'megaplier']})
-    winning_numbers = [elem.text.strip() for elem in winning_numbers_elems]
-
-    return latest_date, winning_numbers
-
+    draws_table = soup.find('table', {'id': 'preDrawTable'})
+    draws = draws_table.find_all('tr')
+    drawing_dates = []
+    winning_numbers = []
+    for draw in draws:
+        date = draw.find('td', {'class': 'date'}).text.strip()
+        numbers = [int(num.text.strip()) for num in draw.find_all('li', {'class': 'ball'})]
+        drawing_dates.append(date)
+        winning_numbers.append(numbers)
+    df = pd.DataFrame({'Drawing Date': drawing_dates, 'Winning Numbers': winning_numbers})
+    return df
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
