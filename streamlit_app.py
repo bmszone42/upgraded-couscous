@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
-title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker -- Let's Check Our Numbers</h1>"
+title = "<h2 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker -- Let's Check Our Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
 def get_megamillions_data():
@@ -26,14 +26,14 @@ def get_megamillions_data():
         winning_numbers.append(numbers + [bonus_number])
 
         # Print the extracted data in each iteration
-        print("Date:", date)
-        print("Numbers:", numbers)
-        print("Bonus number:", bonus_number)
-        print()
+        st.write("Date:", date)
+        st.write("Numbers:", numbers)
+        st.write("Bonus number:", bonus_number)
+     
 
     # Print the length of the dates and winning_numbers lists
-    print("Length of dates:", len(dates))
-    print("Length of winning_numbers:", len(winning_numbers))
+    st.write("Length of dates:", len(dates))
+    st.write("Length of winning_numbers:", len(winning_numbers))
 
     return dates, winning_numbers
 
