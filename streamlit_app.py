@@ -6,22 +6,29 @@ from bs4 import BeautifulSoup
 title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker -- Let's Check Our Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
-# Function to get Mega Millions numbers and dates
-def get_mega_millions_data():
+def get_megamillions_data():
     url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
     response = requests.get(url)
+
     soup = BeautifulSoup(response.content, 'html.parser')
-    winning_data = soup.select('div.pastDrawDetails')
+
+    drawing_dates = [date.text.strip() for date in soup.select('h5.drawItemDate')]
+
+    winning_data = soup.select('ul.numbers')
 
     winning_numbers = []
-    drawing_dates = []
     for data in winning_data:
-        date = data.select_one('h5.drawItemDate').text.strip()
-        numbers = data.select('ul.numbers > li.ball')
-        winning_numbers.append([int(n.text) for n in numbers[:-1]] + [int(numbers[-1].text)])  # Last number is Mega Ball
-        drawing_dates.append(date)
+        numbers = data.select('li.ball.pastNum1, li.ball.pastNum2, li.ball.pastNum3, li.ball.pastNum4, li.ball.pastNum5')
+        bonus_number = data.select_one('li.ball.yellowBall.pastNumMB')
+        winning_numbers.append([int(n.text) for n in numbers] + [int(bonus_number.text)])
 
-    return winning_numbers, drawing_dates
+    return drawing_dates, winning_numbers
+
+# Example usage and printing the data
+mm_dates, mm_numbers = get_megamillions_data()
+print("Mega Millions Dates:", mm_dates)
+print("Mega Millions Numbers:", mm_numbers)
+
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
