@@ -20,7 +20,7 @@ def create_html_table(dataframe):
         
         table_html += "</td></tr>"
     
-    table_html += "</table>"
+    table_html += "</table><br><br>"
     return table_html
 
 # Set default numbers
@@ -65,17 +65,9 @@ for data in winning_data:
 # Create a DataFrame with the winning numbers and dates
 winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
 
-# # Display the winning numbers in a DataFrame
-# st.write("The winning numbers are:")
-# st.write(winning_df)
-
 # Display the winning numbers in an HTML table
 st.write("The winning numbers are:")
 st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
-
-# st.write("The winning numbers are:")
-# for numbers in winning_numbers:
-#    st.write(numbers)
 
 # Define user_numbers
 user_numbers = [number1, number2, number3, number4, number5]
