@@ -112,7 +112,7 @@ for i, numbers in enumerate(winning_numbers):
 if len(winning_dates) == 0:
     st.write("No winners.")
 else:
-    st.write("You won on the following drawing dates:")
+    st.write("You got at least one number on the following drawing dates:")
     for date, prize in winning_dates:
         st.write(f"{date}: {prize}")
 
