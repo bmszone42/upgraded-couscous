@@ -7,32 +7,35 @@ title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: b
 st.markdown(title, unsafe_allow_html=True)
 
 def get_megamillions_data():
-    url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
+    url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
 
-    soup = BeautifulSoup(response.content, 'html.parser')
+    date_elements = soup.select("h5.drawItemDate")
+    winning_number_elements = soup.select("ul.numbers > li.ball")
+    bonus_number_elements = soup.select("ul.numbers > li.yellowBall")
 
-    drawing_dates = [date.text.strip() for date in soup.select('h5.drawItemDate')]
-
-    winning_data = soup.select('ul.numbers')
-
+    dates = []
     winning_numbers = []
-    for data in winning_data:
-        numbers = data.select('li.ball.pastNum1, li.ball.pastNum2, li.ball.pastNum3, li.ball.pastNum4, li.ball.pastNum5')
-        bonus_number = data.select_one('li.ball.yellowBall.pastNumMB')
-        if bonus_number is not None:
-            bonus_number = int(bonus_number.text)
-        else:
-            bonus_number = 0
-        winning_numbers.append([int(n.text) for n in numbers] + [bonus_number])
+    for date_element, number_elements, bonus_element in zip(date_elements, winning_number_elements, bonus_number_elements):
+        date = date_element.text.strip()
+        numbers = [int(number_element.text) for number_element in number_elements]
+        bonus_number = int(bonus_element.text)
 
-    return drawing_dates, winning_numbers
+        dates.append(date)
+        winning_numbers.append(numbers + [bonus_number])
 
-# Example usage and printing the data
-mm_dates, mm_numbers = get_megamillions_data()
-print("Mega Millions Dates:", mm_dates)
-print("Mega Millions Numbers:", mm_numbers)
+        # Print the extracted data in each iteration
+        print("Date:", date)
+        print("Numbers:", numbers)
+        print("Bonus number:", bonus_number)
+        print()
 
+    # Print the length of the dates and winning_numbers lists
+    print("Length of dates:", len(dates))
+    print("Length of winning_numbers:", len(winning_numbers))
+
+    return dates, winning_numbers
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
