@@ -4,19 +4,19 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 def create_html_table(dataframe):
-    table_html = '<table border="1" cellpadding="5" cellspacing="0">'
+    table_html = '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">'
     table_html += "<tr><th>Date</th><th>Winning Numbers</th></tr>"
     
     for index, row in dataframe.iterrows():
         table_html += "<tr>"
-        table_html += f"<td>{row['Date']}</td>"
-        table_html += "<td>"
+        table_html += f"<td style='text-align: center;'>{row['Date']}</td>"
+        table_html += "<td style='text-align: center;'>"
         
         for num in row['Winning Numbers'][:-1]:  # Main numbers
-            table_html += f"<span style='padding: 5px; display: inline-block;'>{num}</span>"
+            table_html += f"<span style='padding: 5px; display: inline-block; margin-right: 3px;'>{num}</span>"
         
         # Powerball number in red
-        table_html += f"<span style='padding: 5px; display: inline-block; color: red;'>{row['Winning Numbers'][-1]}</span>"
+        table_html += f"<span style='padding: 5px; display: inline-block; margin-right: 3px; color: red;'>{row['Winning Numbers'][-1]}</span>"
         
         table_html += "</td></tr>"
     
