@@ -23,6 +23,12 @@ def get_megamillions_data():
 
     return drawing_dates, winning_numbers
 
+def get_megamillions_html():
+    url = 'https://www.megamillions.com/winning-numbers/previous-drawings'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    response = requests.get(url, headers=headers)
+    return response.content
+
 # Function to get Powerball numbers and dates
 def get_powerball_data():
     url = 'https://www.powerball.com/previous-results?gc=powerball'
