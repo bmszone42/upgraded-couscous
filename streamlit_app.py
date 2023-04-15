@@ -20,7 +20,11 @@ def get_megamillions_data():
     for data in winning_data:
         numbers = data.select('li.ball.pastNum1, li.ball.pastNum2, li.ball.pastNum3, li.ball.pastNum4, li.ball.pastNum5')
         bonus_number = data.select_one('li.ball.yellowBall.pastNumMB')
-        winning_numbers.append([int(n.text) for n in numbers] + [int(bonus_number.text)])
+        if bonus_number is not None:
+            bonus_number = int(bonus_number.text)
+        else:
+            bonus_number = 0
+        winning_numbers.append([int(n.text) for n in numbers] + [bonus_number])
 
     return drawing_dates, winning_numbers
 
