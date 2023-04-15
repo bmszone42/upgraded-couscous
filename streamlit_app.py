@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-url = 'https://www.megamillions.com/winning-numbers/search-results'
+url = 'https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx'
 
 response = requests.get(url)
 
