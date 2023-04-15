@@ -3,6 +3,10 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
+title = "<h1 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>Lottery Checker -- Let's Check Our Numbers</h1>"
+st.markdown(title, unsafe_allow_html=True)
+
+
 def create_html_table(dataframe):
     table_html = '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">'
     table_html += "<tr><th>Date</th><th>Winning Numbers</th></tr>"
