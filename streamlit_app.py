@@ -48,9 +48,9 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 # Display the winning numbers in a DataFrame
 st.write("The winning numbers are:")
 st.write(winning_df)
-st.write("The winning numbers are:")
-for numbers in winning_numbers:
-   st.write(numbers)
+# st.write("The winning numbers are:")
+# for numbers in winning_numbers:
+#    st.write(numbers)
 
 # Define user_numbers
 user_numbers = [number1, number2, number3, number4, number5]
