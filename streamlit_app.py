@@ -9,8 +9,14 @@ st.markdown(title, unsafe_allow_html=True)
 import requests
 from bs4 import BeautifulSoup
 
-import requests
-from bs4 import BeautifulSoup
+
+url = 'https://www.megamillions.com/winning-numbers/search-results'
+
+response = requests.get(url)
+
+soup = BeautifulSoup(response.content, 'html.parser')
+
+st.write(soup.prettify())
 
 def get_megamillions_data():
     # Make a GET request to the Mega Millions webpage
