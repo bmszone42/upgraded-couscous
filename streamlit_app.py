@@ -3,6 +3,26 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
+def create_html_table(dataframe):
+    table_html = '<table border="1" cellpadding="5" cellspacing="0">'
+    table_html += "<tr><th>Date</th><th>Winning Numbers</th></tr>"
+    
+    for index, row in dataframe.iterrows():
+        table_html += "<tr>"
+        table_html += f"<td>{row['Date']}</td>"
+        table_html += "<td>"
+        
+        for num in row['Winning Numbers'][:-1]:  # Main numbers
+            table_html += f"<span style='padding: 5px; display: inline-block;'>{num}</span>"
+        
+        # Powerball number in red
+        table_html += f"<span style='padding: 5px; display: inline-block; color: red;'>{row['Winning Numbers'][-1]}</span>"
+        
+        table_html += "</td></tr>"
+    
+    table_html += "</table>"
+    return table_html
+
 # Set default numbers
 default_numbers = [9, 36, 41, 44, 59]
 default_bonus_number = 4
@@ -48,6 +68,11 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 # Display the winning numbers in a DataFrame
 st.write("The winning numbers are:")
 st.write(winning_df)
+
+# Display the winning numbers in an HTML table
+st.write("The winning numbers are:")
+st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
+
 # st.write("The winning numbers are:")
 # for numbers in winning_numbers:
 #    st.write(numbers)
