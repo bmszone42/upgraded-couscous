@@ -7,35 +7,33 @@ title = "<h2 style='text-align: center; font-family: Arial, sans-serif; color: b
 st.markdown(title, unsafe_allow_html=True)
 
 def get_megamillions_data():
-    url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser")
+    url = "https://www.megamillions.com/Winning-Numbers"  # Update the URL if necessary
 
-    date_elements = soup.select("h5.drawItemDate")
-    winning_number_elements = soup.select("ul.numbers > li.ball")
-    bonus_number_elements = soup.select("ul.numbers > li.yellowBall")
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    draw_items = soup.find_all('div', class_='drawItem')
 
     dates = []
     winning_numbers = []
-    for date_element, number_elements, bonus_element in zip(date_elements, winning_number_elements, bonus_number_elements):
-        date = date_element.text.strip()
-        numbers = [int(number_element.text) for number_element in number_elements]
-        bonus_number = int(bonus_element.text)
+    bonus_numbers = []
+
+    for draw_item in draw_items:
+        date = draw_item.find('h5', class_='drawItemDate').text
+        numbers = draw_item.find_all('li', class_='ball')
+        bonus_number = draw_item.find('li', class_='ball yellowBall pastNumMB')
 
         dates.append(date)
-        winning_numbers.append(numbers + [bonus_number])
+        winning_numbers.append([int(number.text) for number in numbers[:-1]])
+        bonus_numbers.append(int(bonus_number.text))
 
-        # Print the extracted data in each iteration
-        st.write("Date:", date)
-        st.write("Numbers:", numbers)
-        st.write("Bonus number:", bonus_number)
-     
+    return dates, winning_numbers, bonus_numbers
 
-    # Print the length of the dates and winning_numbers lists
-    st.write("Length of dates:", len(dates))
-    st.write("Length of winning_numbers:", len(winning_numbers))
-
-    return dates, winning_numbers
+# Example usage and printing the data
+mm_dates, mm_numbers, mm_bonus_numbers = get_megamillions_data()
+st.write("Mega Millions Dates:", mm_dates)
+st.write("Mega Millions Numbers:", mm_numbers)
+st.write("Mega Millions Bonus Numbers:", mm_bonus_numbers)
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
