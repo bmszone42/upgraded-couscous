@@ -19,16 +19,13 @@ def get_megamillions_data():
     for row in rows:
         date = row.select_one('.c-result-card__title').text.strip()
         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
-        st.write(row.prettify())
+        #st.write(row.prettify())
         
         st.write('new idea')
-        st.write(row.select('c-result-card__result-list .c-ball c-ball--default c-result__item'))
-        
-        #numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default > .c-ball__label')]
-        #balls = [int(ball.text) for ball in row.select('.c-result.c-result-card__result-list')]
-        #st.write('Here are the numbers!')
-        #st.write(balls)
-        #st.write(megaball)
+        numbers = [int(num.text) for num in row.select('.c-result__item.c-ball--default > .c-ball__label')]
+        st.write('Here are the numbers!')
+        st.write(numbers)
+       
         drawing_dates.append(date)
         winning_numbers.append(megaball)
     
