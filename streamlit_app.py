@@ -13,17 +13,17 @@ def get_megamillions_data():
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    draws_table = soup.find('table', {'id': 'preDrawTable'})
-    draws = draws_table.find_all('tr')
+    draws_data = soup.select('.previousDrawingList .prevDrawItem')
+
     drawing_dates = []
     winning_numbers = []
-    for draw in draws:
-        date = draw.find('td', {'class': 'date'}).text.strip()
+    for draw in draws_data:
+        date = draw.find('h5', {'class': 'drawItemDate'}).text.strip()
         numbers = [int(num.text.strip()) for num in draw.find_all('li', {'class': 'ball'})]
         drawing_dates.append(date)
         winning_numbers.append(numbers)
-    df = pd.DataFrame({'Drawing Date': drawing_dates, 'Winning Numbers': winning_numbers})
-    return df
+        
+    return winning_numbers, drawing_dates
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
