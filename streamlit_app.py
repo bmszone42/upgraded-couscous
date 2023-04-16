@@ -22,7 +22,7 @@ def get_megamillions_data():
         st.write(row.prettify())
         
         st.write('new idea')
-        st.write(row.select('.c-result__item.c-ball--default > .c-ball__label')
+        st.write(row.select('.c-result__item.c-ball--default > .c-ball__label'))
         
         #numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default > .c-ball__label')]
         #balls = [int(ball.text) for ball in row.select('.c-result.c-result-card__result-list')]
