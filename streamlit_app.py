@@ -37,7 +37,7 @@ def get_megamillions_data():
 
     for draw in draws:
         date = draw.find('h5', {'class': 'drawItemDate'}).text.strip()
-        st.write(date)
+        st.write('The date is: ' + date)
         numbers = [int(num.text) for num in draw.find_all('li', {'class': 'ball'}) if 'yellowBall' not in num['class']]
         mega_ball = int(draw.find('li', {'class': 'ball yellowBall'}).text)
 
