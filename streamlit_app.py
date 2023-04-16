@@ -11,24 +11,30 @@ def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    #soup = BeautifulSoup(html, 'html.parser')
-    results_table = soup.find('tbody', class_='c-results-table__items')
-    st.write('here is what we have so far')
-    st.write(results_table)
     
-    rows = results_table.find_all('tr', class_='c-result-card--squeeze')
+    results_table = soup.find('div', class_='c-result-list')
+    
+    rows = results_table.find_all('div', class_='c-result-item__inner')
     
     winning_numbers = []
     drawing_dates = []
- 
+    
     for row in rows:
-        date = row.find('time', class_='c-result-card__title').text.strip()
+        date = row.find('time', class_='c-result-item__date').text.strip()
         drawing_dates.append(date)
-        numbers = [li.span.text for li in row.find_all('li', class_='c-ball')]
-        bonus_ball = row.find('li', class_='c-result__bonus-ball').span.text
+        numbers = [li.text for li in row.find_all('li', class_='c-result-item__ball')]
+        bonus_ball = row.find('li', class_='c-result-item__ball--bonus').text
         winning_numbers.append(numbers + [bonus_ball])
     
     return winning_numbers, drawing_dates
+
+winning_numbers, drawing_dates = get_megamillions_data()
+st.write('Winning numbers:')
+st.write(winning_numbers)
+st.write('Drawing dates:')
+st.write(drawing_dates)
+
+
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
