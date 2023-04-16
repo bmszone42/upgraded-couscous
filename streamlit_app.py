@@ -31,7 +31,7 @@ st.markdown(title, unsafe_allow_html=True)
 
 #     return winning_numbers, drawing_dates
 
-def get_mega_millions_results():
+def get_mega_millions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
