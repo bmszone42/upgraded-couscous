@@ -4,7 +4,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker</h1>"
+title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: purple;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
 def get_megamillions_data():
