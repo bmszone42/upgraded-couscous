@@ -12,6 +12,8 @@ def get_megamillions_data():
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
     rows = soup.select('.c-result-card')
+    st.write(rows)
+    
     winning_numbers = []
     drawing_dates = []
 
