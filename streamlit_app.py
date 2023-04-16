@@ -14,22 +14,24 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_megamillions_data():
-    url = 'https://www.megamillions.com/Winning-Numbers/Search-Past-Winning-Numbers.aspx'
+    url = 'https://www.lotteryusa.com/mega-millions/'
+
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    winning_data = soup.select('#js-searchResults > div.card')
+    winning_data = soup.select('tr.c-result-table__row')
 
     winning_numbers = []
     drawing_dates = []
     for data in winning_data:
-        date = data.select_one('div.card-header > h5').text.strip()
-        numbers = data.select('div.white-balls > span.number')
-        megaball = data.select('div.megaball > span.number')
-        winning_numbers.append([int(n.text) for n in numbers] + [int(m.text) for m in megaball])
-        drawing_dates.append(date)
+        date = data.select_one('td.c-result-table__date').text.strip()
+        numbers = data.select('td.c-result-table__numbers > span')
+        megaball = data.select_one('td.c-result-table__megaball')
+        
+        if date and numbers and megaball:
+            winning_numbers.append([int(n.text) for n in numbers] + [int(megaball.text)])
+            drawing_dates.append(date)
 
     return winning_numbers, drawing_dates
-
 
 # def get_megamillions_data():
 #     url = "https://www.lotteryusa.com/mega-millions/"
