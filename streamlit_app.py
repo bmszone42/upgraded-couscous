@@ -15,7 +15,8 @@ def get_megamillions_data():
 
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    winning_data = soup.select('js-results-table')
+    #winning_data = soup.select('js-results-table')
+    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table')
     st.write('here is what we have so far')
     st.write(winning_data)
     
