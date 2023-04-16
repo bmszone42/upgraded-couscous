@@ -23,11 +23,11 @@ def get_megamillions_data():
     for data in winning_data:
         #date_string = data.select_one('th > time').attrs['datetime']
         #date = datetime.strptime(date_string, '%Y-%m-%d').strftime('%a, %b %d, %Y')
-        date = data.select_one('th > time').attrs['datetime']).text.strip()
+        date = datetime.strptime(data.select_one('th > time').attrs['datetime'], '%Y-%m-%d').strftime('%a, %b %d, %Y')
         
         numbers = [int(ball.text.strip()) for ball in data.select('li.c-ball--default')]
         megaball = int(data.select_one('li.c-result__bonus-ball > span.c-ball--yellow').text.strip())
-        winning_numbers.append([int(n.text) for n in numbers] + [int(m.text) for m in megaball]
+        winning_numbers.append(numbers + [megaball])
         drawing_dates.append(date)
 
     return winning_numbers, drawing_dates
