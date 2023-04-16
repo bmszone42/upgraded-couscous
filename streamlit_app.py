@@ -23,6 +23,8 @@ def get_megamillions_data():
         date = data.select_one('td.c-result-table__date').text.strip()
         numbers = data.select('td.c-result-table__numbers > span')
         megaball = data.select_one('td.c-result-table__megaball > span')
+        st.write('here is what we have so far')
+        st.write(date, numbers, megaball)
         
         if date and numbers and megaball:
             winning_numbers.append([int(n.text) for n in numbers] + [int(megaball.text)])
