@@ -19,8 +19,9 @@ def get_megamillions_data():
 
     for row in rows:
         date = row.select_one('.c-result-card__title').text.strip()
-        numbers = [int(n.text) for n in row.select('.c-result__item > .c-ball__label')]
-        megaball = [int(n.text) for n in row.select('.c-result__item > .c-ball__yellow')]
+        #numbers = [int(n.text) for n in row.select('.c-result__item > .c-ball__label')]
+        numbers = [int(n.text) for n in row.select('.c-result__item .c-ball__label')]
+        megaball = [int(n.text) for n in row.select('.c-result__item .c-ball__yellow')]
         drawing_dates.append(date)
         winning_numbers.append(numbers + [megaball])
     
