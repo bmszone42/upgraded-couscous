@@ -23,7 +23,7 @@ def get_megamillions_data():
     winning_numbers = []
     drawing_dates = []
     for data in winning_data:
-        date = data.select_one('td.c-result-table__date').text.strip()
+        date = data.select_one('tbody > tr > th > time').text.strip()
         numbers = data.select('td.c-result-table__numbers > span')
         megaball = data.select_one('td.c-result-table__megaball > span')
         st.write('here is what we have so far')
