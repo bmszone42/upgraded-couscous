@@ -11,20 +11,16 @@ def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    
-    results_table = soup.find('div', class_='c-result-list')
-    
-    rows = results_table.find_all('div', class_='c-result-item__inner')
-    
+    rows = soup.select('.c-result-card')
     winning_numbers = []
     drawing_dates = []
-    
+
     for row in rows:
-        date = row.find('time', class_='c-result-item__date').text.strip()
+        date = row.select_one('.c-result-card__title').text.strip()
+        numbers = [int(n.text) for n in row.select('.c-result__item > .c-ball__label')]
+        main_numbers, mega_ball = numbers[:-1], numbers[-1]
         drawing_dates.append(date)
-        numbers = [li.text for li in row.find_all('li', class_='c-result-item__ball')]
-        bonus_ball = row.find('li', class_='c-result-item__ball--bonus').text
-        winning_numbers.append(numbers + [bonus_ball])
+        winning_numbers.append(main_numbers + mega_ball)
     
     return winning_numbers, drawing_dates
 
