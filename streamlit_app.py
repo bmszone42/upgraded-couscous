@@ -13,18 +13,18 @@ def get_megamillions_data():
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    #st.write(soup.prettify())
-    draws_data = soup.select('.previousDrawingList .prevDrawItem')
-    st.write(draws_data.prettify())
-    
+    draws = soup.find_all('div', {'class': 'numbersGroup'})
     drawing_dates = []
     winning_numbers = []
-    for draw in draws_data:
-        date = draw.find('h5', {'class': 'drawItemDate'}).text.strip()
-        numbers = [int(num.text.strip()) for num in draw.find_all('li', {'class': 'ball'})]
+
+    for draw in draws:
+        date = draw.find('span', {'id': 'lastestDate'}).text.strip()
+        numbers = [int(''.join(filter(str.isdigit, num['class'][1]))) for num in draw.find_all('li', {'class': 'ball'}) if 'yellowBall' not in num['class']]
+        mega_ball = int(''.join(filter(str.isdigit, draw.find('li', {'class': 'ball yellowBall winNumMB'})['class'][2])))
+
         drawing_dates.append(date)
-        winning_numbers.append(numbers)
-        
+        winning_numbers.append(numbers + [mega_ball])
+     
     return winning_numbers, drawing_dates
 
 # Function to get Powerball numbers and dates
