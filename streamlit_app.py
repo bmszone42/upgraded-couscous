@@ -25,7 +25,7 @@ def get_megamillions_data():
         #numbers = [int(num.text) for num in row.select('.c-result__item.c-ball--default > .c-ball__label')]
         #numbers = [int(num.text.strip()) for num in row.select('.c-result__item.c-ball--default.c-result__item--number')]
         #numbers = [int(num.text.strip()) for num in row.select('.c-result__item.c-ball--default.c-result__item--number')]
-        numbers = [int(num.text.strip()) for num in row.select('.c-result__item.c-ball--default.c-result__item--number > .c-ball__label')]
+        numbers = [int(num.text.strip()) for num in row.select('c-ball.c-ball--default.c-result__item')]
 
         st.write(f"Date: {date}")
         st.write(f"Mega Ball: {megaball}")
