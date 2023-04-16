@@ -19,18 +19,14 @@ def get_megamillions_data():
     for row in rows:
         date = row.select_one('.c-result-card__title').text.strip()
         numbers = [int(n.text) for n in row.select('.c-ball.c-result__item.c-ball--default .c-ball__label')]
+        st.write(numbers)
         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
         
         drawing_dates.append(date)
-        winning_numbers.append(numbers + [megaball])
+        winning_numbers.append(numbers + megaball)
     
     return winning_numbers, drawing_dates
 
-winning_numbers, drawing_dates = get_megamillions_data()
-st.write('Winning numbers:')
-st.write(winning_numbers)
-st.write('Drawing dates:')
-st.write(drawing_dates)
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
