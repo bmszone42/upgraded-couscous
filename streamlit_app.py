@@ -12,16 +12,22 @@ from bs4 import BeautifulSoup
 
 def get_megamillions_data():
     url = 'https://www.lotteryusa.com/mega-millions/'
+
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody')
+    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody > tr.c-result-card.c-result-card--squeeze.c-result-card--themed.c-result-card--has-prizes')
+
+    st.write('here is what we have so far')
+    st.write(winning_data)
 
     winning_numbers = []
     drawing_dates = []
     for data in winning_data:
-        date = data.select_one('tr > th > time').text.strip()
+        date = data.select_one('th').text.strip()
         numbers = data.select('td.c-result-table__numbers > span')
         megaball = data.select_one('td.c-result-table__megaball > span')
+        st.write('here is what we have so far')
+        st.write(date, numbers, megaball)
 
         if date and numbers and megaball:
             winning_numbers.append([int(n.text) for n in numbers] + [int(megaball.text)])
