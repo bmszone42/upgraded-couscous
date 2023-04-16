@@ -93,8 +93,8 @@ if lottery_game == "Powerball":
 else:
     winning_numbers, drawing_dates = get_megamillions_data()
    
-st.write("Length of drawing_dates:", len(drawing_dates))
-st.write("Length of winning_numbers:", len(winning_numbers))
+# st.write("Length of drawing_dates:", len(drawing_dates))
+# st.write("Length of winning_numbers:", len(winning_numbers))
 
 # Create a DataFrame with the winning numbers and dates
 winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
