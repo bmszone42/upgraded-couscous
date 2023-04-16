@@ -32,6 +32,8 @@ def get_megamillions_data():
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     draws = soup.find_all('a', {'class': 'prevDrawItem'})
+    st.write('here ar ethe draws')
+    st.write(draws)
     drawing_dates = []
     winning_numbers = []
 
