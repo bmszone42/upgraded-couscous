@@ -34,8 +34,8 @@ st.markdown(title, unsafe_allow_html=True)
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
-    #soup = BeautifulSoup(page.content, 'html.parser')
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(page.content, 'html.parser')
+    #soup = BeautifulSoup(html, 'html.parser')
     results_table = soup.find('tbody', class_='c-results-table__items')
     rows = results_table.find_all('tr', class_='c-result-card--squeeze')
     
