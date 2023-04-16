@@ -10,9 +10,6 @@ st.markdown(title, unsafe_allow_html=True)
 import requests
 from bs4 import BeautifulSoup
 
-import requests
-from bs4 import BeautifulSoup
-
 def get_megamillions_data():
     url = 'https://www.lotteryusa.com/mega-millions/'
 
@@ -25,34 +22,13 @@ def get_megamillions_data():
     for data in winning_data:
         date = data.select_one('td.c-result-table__date').text.strip()
         numbers = data.select('td.c-result-table__numbers > span')
-        megaball = data.select_one('td.c-result-table__megaball')
+        megaball = data.select_one('td.c-result-table__megaball > span')
         
         if date and numbers and megaball:
             winning_numbers.append([int(n.text) for n in numbers] + [int(megaball.text)])
             drawing_dates.append(date)
 
     return winning_numbers, drawing_dates
-
-# def get_megamillions_data():
-#     url = "https://www.lotteryusa.com/mega-millions/"
-#     response = requests.get(url)
-#     soup = BeautifulSoup(response.content, 'html.parser')
-    
-#     draws = soup.find_all('tr', class_='c-game-table__item')
-#     drawing_dates = []
-#     winning_numbers = []
-
-#     for draw in draws[:10]:  # Get the last 10 draws
-#         date = draw.find('time', class_='c-game-table__game-date')['datetime']
-#         date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S').strftime('%m/%d/%Y')
-        
-#         numbers = [int(num.text) for num in draw.find_all('span', class_='c-results-table__result')]
-#         mega_ball = int(draw.find('span', class_='c-results-table__megaball').text)
-        
-#         drawing_dates.append(date)
-#         winning_numbers.append(numbers + [mega_ball])
-
-#     return winning_numbers, drawing_dates
 
 # Function to get Powerball numbers and dates
 def get_powerball_data():
