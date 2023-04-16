@@ -13,7 +13,7 @@ def get_megamillions_data():
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     #winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody > tr.c-result-card.c-result-card--squeeze.c-result-card--themed.c-result-card--has-prizes')
-    winning_data = soup.select('#main > div.o-container.o-container--sm')
+    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody')
     
     st.write('here is what we have so far')
     st.write(winning_data)
