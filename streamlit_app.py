@@ -7,30 +7,49 @@ from datetime import datetime
 title = "<h2 style='text-align: center; font-family: Arial, sans-serif; color: blue;'>PowerBall & Mega Millions Checker -- Let's Check Our Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
-def get_megamillions_data():
-    url = 'https://www.lotteryusa.com/mega-millions/'
+# def get_megamillions_data():
+#     url = 'https://www.lotteryusa.com/mega-millions/'
 
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    #winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody > tr.c-result-card.c-result-card--squeeze.c-result-card--themed.c-result-card--has-prizes')
-    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody')
+#     response = requests.get(url)
+#     soup = BeautifulSoup(response.content, 'html.parser')
+#     #winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody > tr.c-result-card.c-result-card--squeeze.c-result-card--themed.c-result-card--has-prizes')
+#     winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody')
     
-    st.write('here is what we have so far')
-    st.write(winning_data)
+#     st.write('here is what we have so far')
+#     st.write(winning_data)
     
+#     winning_numbers = []
+#     drawing_dates = []
+#     for data in winning_data:
+#         date_string = data.select_one('th > time').attrs['datetime']
+#         date = datetime.strptime(date_string, '%Y-%m-%d').strftime('%a, %b %d, %Y')
+        
+#         numbers = [int(ball.text.strip()) for ball in data.select('li.c-ball--default')]
+#         megaball = int(data.select_one('li.c-result__bonus-ball > span.c-ball--yellow').text.strip())
+#         winning_numbers.append([int(n.text) for n in numbers] + [int(m.text) for m in megaball])
+#         drawing_dates.append(date)
+
+#     return winning_numbers, drawing_dates
+
+def get_mega_millions_results():
+    url = "https://www.lotteryusa.com/mega-millions/"
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    results = soup.find_all(class_='winning-numbers-item')
+
     winning_numbers = []
     drawing_dates = []
-    for data in winning_data:
-        date_string = data.select_one('th > time').attrs['datetime']
-        date = datetime.strptime(date_string, '%Y-%m-%d').strftime('%a, %b %d, %Y')
-        
-        numbers = [int(ball.text.strip()) for ball in data.select('li.c-ball--default')]
-        megaball = int(data.select_one('li.c-result__bonus-ball > span.c-ball--yellow').text.strip())
-        winning_numbers.append([int(n.text) for n in numbers] + [int(m.text) for m in megaball])
+
+    for result in results:
+        date = result.find(class_='date').get_text().strip()
         drawing_dates.append(date)
-
+        numbers = result.find_all(class_='number-circle')
+        winning_balls = [num.get_text().strip() for num in numbers]
+        megaball = result.find(class_='mega-ball-circle').get_text().strip()
+        winning_numbers.append(winning_balls + [megaball])
+    
     return winning_numbers, drawing_dates
-
+    
 # Function to get Powerball numbers and dates
 def get_powerball_data():
     url = 'https://www.powerball.com/previous-results?gc=powerball'
