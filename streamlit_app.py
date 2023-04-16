@@ -22,7 +22,9 @@ def get_megamillions_data():
         st.write(row.prettify())
         
         st.write('new idea')
-        numbers = [int(num.text) for num in row.select('.c-result__item.c-ball--default > .c-ball__label')]
+        #numbers = [int(num.text) for num in row.select('.c-result__item.c-ball--default > .c-ball__label')]
+        numbers = [int(num.text.strip()) for num in row.select('.c-result__item.c-ball--default.c-result__item--number')]
+
         st.write('Here are the numbers!')
         st.write(numbers)
        
