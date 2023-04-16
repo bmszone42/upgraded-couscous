@@ -37,6 +37,9 @@ def get_megamillions_data():
     soup = BeautifulSoup(page.content, 'html.parser')
     #soup = BeautifulSoup(html, 'html.parser')
     results_table = soup.find('tbody', class_='c-results-table__items')
+    st.write('here is what we have so far')
+    st.write(results_table)
+    
     rows = results_table.find_all('tr', class_='c-result-card--squeeze')
     
     winning_numbers = []
