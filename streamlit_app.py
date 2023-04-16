@@ -9,43 +9,23 @@ st.markdown(title, unsafe_allow_html=True)
 import requests
 from bs4 import BeautifulSoup
 
-# def get_megamillions_data():
-#     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
-#     response = requests.get(url)
-#     soup = BeautifulSoup(response.content, 'html.parser')
-#     draws = soup.find_all('a', {'class': 'prevDrawItem'})
-#     drawing_dates = []
-#     winning_numbers = []
-
-#     for draw in draws:
-#         date = draw.find('h5', {'class': 'drawItemDate'}).text.strip()
-#         numbers = [int(num.text) for num in draw.find_all('li', {'class': 'ball'}) if 'yellowBall' not in num['class']]
-#         mega_ball = int(draw.find('li', {'class': 'ball yellowBall'}).text)
-
-#         drawing_dates.append(date)
-#         winning_numbers.append(numbers + [mega_ball])
-
-#     return winning_numbers, drawing_dates
 
 def get_megamillions_data():
-    url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
+    url = "https://www.lotteryusa.com/mega-millions/"
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    draws = soup.find_all('a', {'class': 'prevDrawItem'})
-    st.write('here ar ethe draws')
-    st.write(draws)
+    data = response.json()
+
     drawing_dates = []
     winning_numbers = []
 
-    for draw in draws:
-        date = draw.find('h5', {'class': 'drawItemDate'}).text.strip()
-        st.write('The date is: ' + date)
-        numbers = [int(num.text) for num in draw.find_all('li', {'class': 'ball'}) if 'yellowBall' not in num['class']]
-        mega_ball = int(draw.find('li', {'class': 'ball yellowBall'}).text)
+    for draw in data['results'][:10]:  # The website returns the last 10 draws
+        date = datetime.strptime(draw['draw_date'], '%Y-%m-%dT%H:%M:%S').strftime('%m/%d/%Y')
+        numbers = draw['results']
+        mega_ball = draw['megaball']
 
         drawing_dates.append(date)
         winning_numbers.append(numbers + [mega_ball])
-     
+
     return winning_numbers, drawing_dates
 
 # Function to get Powerball numbers and dates
