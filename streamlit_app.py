@@ -12,19 +12,15 @@ def get_megamillions_data():
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
     rows = soup.select('.c-result-card')
-    #st.write(rows)
     
     winning_numbers = []
     drawing_dates = []
 
     for row in rows:
         date = row.select_one('.c-result-card__title').text.strip()
-        numbers = [int(n.text) for n in row.select('.c-ball__label')]
-    
-        #numbers = [int(n.text) for n in row.select('.c-result__item .c-ball__label')]
-        st.write("number is: ", numbers)
-        megaball = [int(n.text) for n in row.select('.c-ball__yellow')]
-        st.write("megaball is: ", megaball)
+        numbers = [int(n.text) for n in row.select('.c-ball.c-result__item.c-ball--default .c-ball__label')]
+        megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
+        
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
     
