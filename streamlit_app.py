@@ -23,7 +23,7 @@ def get_megamillions_data():
         numbers = [int(n.text) for n in row.select('.c-result__item .c-ball__label')]
         megaball = [int(n.text) for n in row.select('.c-result__item .c-ball__yellow')]
         drawing_dates.append(date)
-        winning_numbers.append(numbers + [megaball])
+        winning_numbers.append(numbers + megaball)
     
     return winning_numbers, drawing_dates
 
