@@ -21,7 +21,7 @@ def get_megamillions_data():
         date = row.select_one('.c-result-card__title').text.strip()
         #numbers = [int(n.text) for n in row.select('.c-result__item > .c-ball__label')]
         numbers = [int(n.text) for n in row.select('.c-result__item .c-ball__label')]
-        st.write("number is: ", number)
+        st.write("number is: ", numbers)
         megaball = [int(n.text) for n in row.select('.c-result__item .c-ball__yellow')]
         st.write("megaball is: ", megaball)
         drawing_dates.append(date)
