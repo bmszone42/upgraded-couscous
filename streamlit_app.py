@@ -21,10 +21,6 @@ def get_megamillions_data():
         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
         numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-ball--default.c-result__item')]
 
-        st.write(f"Date: {date}")
-        st.write(f"Mega Ball: {megaball}")
-        st.write(f"Numbers: {numbers}")
-       
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
     
