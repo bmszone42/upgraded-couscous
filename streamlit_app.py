@@ -20,6 +20,8 @@ def get_megamillions_data():
         date = row.select_one('.c-result-card__title').text.strip()
         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
         st.write(row.prettify())
+        st.write('new idea')
+        st.write(row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow'))
         
         #numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default > .c-ball__label')]
         balls = [int(ball.text) for ball in row.select('.c-result.c-result-card__result-list')]
