@@ -22,8 +22,8 @@ def get_megamillions_data():
         #numbers = [int(n.text) for n in row.select('.c-ball .c-result__item .c-ball--default .c-ball__label')]
         #numbers = [int(n.text) for n in row.select('.c-ball.c-result__item.c-ball--default .c-ball__label')]
         #numbers = [int(n.text) for n in row.select('c-result-card__result-row.c-result__item.c-ball--default .c-ball__label')]
-        numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default .c-ball__label')]
-        #numbers = [int(n.text) for n in row.select('.c-ball--default .c-ball__label')]
+        numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default span')]
+        #numbers = [int(n.text) for n in row.select('.c-result__item.c-ball--default .c-ball__label')]
         st.write('Here are the numbers!')
         st.write(numbers)
         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
