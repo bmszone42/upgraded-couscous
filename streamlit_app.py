@@ -20,9 +20,9 @@ def get_megamillions_data():
     for row in rows:
         date = row.select_one('.c-result-card__title').text.strip()
         numbers = [int(n.text) for n in row.select('.c-result__item > .c-ball__label')]
-        main_numbers, mega_ball = numbers[:-1], numbers[-1]
+        #main_numbers, mega_ball = numbers[:-1], numbers[-1]
         drawing_dates.append(date)
-        winning_numbers.append(main_numbers + mega_ball)
+        winning_numbers.append(numbers)
     
     return winning_numbers, drawing_dates
 
