@@ -20,7 +20,7 @@ def get_megamillions_data():
     drawing_dates = []
     for data in winning_data:
         date_string = data.select_one('th > time').attrs['datetime']
-        date = datetime.strptime(date_string, '%Y-%m-%d').date()
+        date = datetime.strptime(date_string, '%Y-%m-%d').strftime('%a, %b %d, %Y')
         
         numbers = [int(ball.text.strip()) for ball in data.select('li.c-ball--default')]
         megaball = int(data.select_one('li.c-result__bonus-ball > span.c-ball--yellow').text.strip())
