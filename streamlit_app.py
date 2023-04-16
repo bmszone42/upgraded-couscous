@@ -14,16 +14,19 @@ from bs4 import BeautifulSoup
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     response = requests.get(url)
-    data = response.json()
-
+    soup = BeautifulSoup(response.content, 'html.parser')
+    
+    draws = soup.find_all('tr', class_='c-game-table__item')
     drawing_dates = []
     winning_numbers = []
 
-    for draw in data['results'][:10]:  # The website returns the last 10 draws
-        date = datetime.strptime(draw['draw_date'], '%Y-%m-%dT%H:%M:%S').strftime('%m/%d/%Y')
-        numbers = draw['results']
-        mega_ball = draw['megaball']
-
+    for draw in draws[:10]:  # Get the last 10 draws
+        date = draw.find('time', class_='c-game-table__game-date')['datetime']
+        date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S').strftime('%m/%d/%Y')
+        
+        numbers = [int(num.text) for num in draw.find_all('span', class_='c-results-table__result')]
+        mega_ball = int(draw.find('span', class_='c-results-table__megaball').text)
+        
         drawing_dates.append(date)
         winning_numbers.append(numbers + [mega_ball])
 
