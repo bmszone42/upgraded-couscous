@@ -26,7 +26,7 @@ def get_megamillions_data():
         st.write(f"Numbers: {numbers}")
        
         drawing_dates.append(date)
-        winning_numbers.append(megaball)
+        winning_numbers.append(numbers + megaball)
     
     return winning_numbers, drawing_dates
 
