@@ -16,16 +16,16 @@ def get_megamillions_data():
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     #winning_data = soup.select('js-results-table')
-    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table')
+    winning_data = soup.select('#main > div.o-container.o-container--sm > div > div.o-lusa-game-col__result-list > div.js-results-table > table > tbody')
     st.write('here is what we have so far')
     st.write(winning_data)
     
     winning_numbers = []
     drawing_dates = []
     for data in winning_data:
-        date = data.select_one('tbody > tr > th > time').text.strip()
-        numbers = data.select('td.c-result-table__numbers > span')
-        megaball = data.select_one('td.c-result-table__megaball > span')
+        date = data.select_one('tr > th > time').text.strip()
+        numbers = data.select('tr > td.c-result-table__numbers > span')
+        megaball = data.select_one('tr > td.c-result-table__megaball > span')
         st.write('here is what we have so far')
         st.write(date, numbers, megaball)
         
