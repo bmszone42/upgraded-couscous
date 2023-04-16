@@ -13,9 +13,10 @@ def get_megamillions_data():
     url = "https://www.megamillions.com/Winning-Numbers/Previous-Drawings.aspx"
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    st.write(soup.prettify())
+    #st.write(soup.prettify())
     draws_data = soup.select('.previousDrawingList .prevDrawItem')
-
+    st.write(draws_data.prettify())
+    
     drawing_dates = []
     winning_numbers = []
     for draw in draws_data:
