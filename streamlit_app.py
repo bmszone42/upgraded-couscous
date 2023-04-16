@@ -94,7 +94,7 @@ lottery_game = st.sidebar.selectbox("Select the lottery game", ["Powerball", "Me
 if lottery_game == "Powerball":
     winning_numbers, drawing_dates = get_powerball_data()
 else:
-    drawing_dates, winning_numbers = get_megamillions_data()
+    winning_numbers, drawing_dates = get_megamillions_data()
    
 st.write("Length of drawing_dates:", len(drawing_dates))
 st.write("Length of winning_numbers:", len(winning_numbers))
