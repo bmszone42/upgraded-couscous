@@ -30,7 +30,7 @@ def get_megamillions_data():
         #st.write(balls)
         #st.write(megaball)
         drawing_dates.append(date)
-        winning_numbers.append(balls + megaball)
+        winning_numbers.append(megaball)
     
     return winning_numbers, drawing_dates
 
