@@ -35,17 +35,17 @@ def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    results = soup.find_all(class_='winning-numbers-item')
+    results = soup.find_all(class_='winning-numbers')
 
     winning_numbers = []
     drawing_dates = []
 
     for result in results:
-        date = result.find(class_='date').get_text().strip()
+        date = result.find(class_='drawing-date').get_text().strip()
         drawing_dates.append(date)
         numbers = result.find_all(class_='number-circle')
         winning_balls = [num.get_text().strip() for num in numbers]
-        megaball = result.find(class_='mega-ball-circle').get_text().strip()
+        megaball = result.find(class_='mega-ball').get_text().strip()
         winning_numbers.append(winning_balls + [megaball])
     
     return winning_numbers, drawing_dates
