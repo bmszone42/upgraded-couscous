@@ -99,7 +99,7 @@ for i, default_num in enumerate(default_numbers, start=1):
 bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Create the lottery balls representation
-st.sidebar.write(
+st.write(
     f"""
     <style>
         .ball {{
@@ -121,13 +121,18 @@ st.sidebar.write(
             color: black;
             border: 1px solid black;
         }}
+        .red-ball {{
+            background-color: red;
+            color: black;
+            border: 1px solid black;
+        }}
     </style>
     <div class="ball white-ball">{number_inputs[0]}</div>
     <div class="ball white-ball">{number_inputs[1]}</div>
     <div class="ball white-ball">{number_inputs[2]}</div>
     <div class="ball white-ball">{number_inputs[3]}</div>
     <div class="ball white-ball">{number_inputs[4]}</div>
-    <div class="ball yellow-ball">{bonus_number}</div>
+    <div class="ball {bonus_ball_color}-ball">{bonus_number}</div>
     """,
     unsafe_allow_html=True,
 )
