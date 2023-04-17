@@ -92,7 +92,7 @@ for i, default_num in enumerate(default_numbers, start=1):
 bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
 
 # Create the lottery balls representation
-st.write(
+st.sidebar.write(
     f"""
     <style>
         .ball {{
