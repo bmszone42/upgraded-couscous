@@ -98,6 +98,10 @@ for i, default_num in enumerate(default_numbers, start=1):
 # Place bonus number slider in the last column
 bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
+
+# Set the bonus ball color based on the selected game
+bonus_ball_color = "red" if game == "Powerball" else "yellow"
+
 # Create the lottery balls representation
 st.write(
     f"""
