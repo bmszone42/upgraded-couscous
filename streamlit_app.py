@@ -98,6 +98,8 @@ for i, default_num in enumerate(default_numbers, start=1):
 # Place bonus number slider in the last column
 bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
+# Choose the game: Powerball or Mega Millions
+lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
 
 # Set the bonus ball color based on the selected game
 bonus_ball_color = "red" if game == "Powerball" else "yellow"
@@ -141,8 +143,8 @@ st.write(
     unsafe_allow_html=True,
 )
 
-# Selector for Powerball or Mega Millions
-lottery_game = st.sidebar.selectbox("Select the lottery game", ["Powerball", "Mega Millions"])
+# # Selector for Powerball or Mega Millions
+# lottery_game = st.sidebar.selectbox("Select the lottery game", ["Powerball", "Mega Millions"])
 
 # Get the winning numbers and dates based on the user's selection
 if lottery_game == "Powerball":
