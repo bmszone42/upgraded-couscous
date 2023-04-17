@@ -99,7 +99,7 @@ for i, default_num in enumerate(default_numbers, start=1):
 bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Create the lottery balls representation
-st.sidebar.write(
+st.write(
     f"""
     <style>
         .ball {{
