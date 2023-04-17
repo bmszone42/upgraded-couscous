@@ -149,6 +149,9 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 st.write(f"The winning {lottery_game} numbers are:")
 st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
 
+title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: green;'>You Picked</h1>"
+st.markdown(title, unsafe_allow_html=True)
+
 # Display user's selected numbers with CSS
 st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
 
@@ -156,8 +159,8 @@ st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_colo
 user_numbers = number_inputs
 # Display results
 #entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
-entered_numbers = f"You entered the numbers <strong>{number_inputs[0]}</strong>, <strong>{number_inputs[1]}</strong>, <strong>{number_inputs[2]}</strong>, <strong>{number_inputs[3]}</strong>, <strong>{number_inputs[4]}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
-st.markdown(entered_numbers, unsafe_allow_html=True)
+# entered_numbers = f"You entered the numbers <strong>{number_inputs[0]}</strong>, <strong>{number_inputs[1]}</strong>, <strong>{number_inputs[2]}</strong>, <strong>{number_inputs[3]}</strong>, <strong>{number_inputs[4]}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
+# st.markdown(entered_numbers, unsafe_allow_html=True)
 
 def calculate_prize(lottery_game, matched_numbers, matched_bonus):
     if lottery_game == "Powerball":
