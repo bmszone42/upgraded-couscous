@@ -144,9 +144,6 @@ if lottery_game == "Powerball":
 else:
     winning_numbers, drawing_dates = get_megamillions_data()
    
-# st.write("Length of drawing_dates:", len(drawing_dates))
-# st.write("Length of winning_numbers:", len(winning_numbers))
-
 # Create a DataFrame with the winning numbers and dates
 winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_numbers})
 
@@ -157,7 +154,8 @@ st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
 # Define user_numbers
 user_numbers = number_inputs
 # Display results
-entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
+#entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
+entered_numbers = f"You entered the numbers <strong>{number_inputs[0]}</strong>, <strong>{number_inputs[1]}</strong>, <strong>{number_inputs[2]}</strong>, <strong>{number_inputs[3]}</strong>, <strong>{number_inputs[4]}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
 st.markdown(entered_numbers, unsafe_allow_html=True)
 
 def calculate_prize(lottery_game, matched_numbers, matched_bonus):
