@@ -76,21 +76,21 @@ def create_html_table(dataframe):
 default_numbers = [9, 36, 41, 44, 59]
 default_bonus_number = 4
 
-# # Create inputs for user to enter numbers
-# number1 = st.sidebar.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
-# number2 = st.sidebar.number_input("Enter second number", min_value=1, max_value=69, value=default_numbers[1])
-# number3 = st.sidebar.number_input("Enter third number", min_value=1, max_value=69, value=default_numbers[2])
-# number4 = st.sidebar.number_input("Enter fourth number", min_value=1, max_value=69, value=default_numbers[3])
-# number5 = st.sidebar.number_input("Enter fifth number", min_value=1, max_value=69, value=default_numbers[4])
-# bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
-
 # Create inputs for user to enter numbers
-default_numbers = [1, 2, 3, 4, 5]
-number_inputs = []
-for i in range(5):
-    number_input = st.sidebar.number_input(f"Enter number {i+1}", min_value=1, max_value=69, value=default_numbers[i])
-    number_inputs.append(number_input)
-bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=1)
+number1 = st.sidebar.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
+number2 = st.sidebar.number_input("Enter second number", min_value=1, max_value=69, value=default_numbers[1])
+number3 = st.sidebar.number_input("Enter third number", min_value=1, max_value=69, value=default_numbers[2])
+number4 = st.sidebar.number_input("Enter fourth number", min_value=1, max_value=69, value=default_numbers[3])
+number5 = st.sidebar.number_input("Enter fifth number", min_value=1, max_value=69, value=default_numbers[4])
+bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
+
+# # Create inputs for user to enter numbers
+# default_numbers = [1, 2, 3, 4, 5]
+# number_inputs = []
+# for i in range(5):
+#     number_input = st.sidebar.number_input(f"Enter number {i+1}", min_value=1, max_value=69, value=default_numbers[i])
+#     number_inputs.append(number_input)
+# bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=1)
 
 
 # Selector for Powerball or Mega Millions
