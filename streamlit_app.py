@@ -84,19 +84,19 @@ default_bonus_number = 4
 # number5 = st.sidebar.number_input("Enter fifth number", min_value=1, max_value=69, value=default_numbers[4])
 # bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
 
-# Create input fields for user to enter numbers
+# Create input sliders for user to enter numbers
 number_inputs = []
 
 # Create columns
 cols = st.sidebar.columns(3)
 
-# Place input fields in columns
+# Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
     col = cols[(i - 1) % 3]
-    number_inputs.append(col.number_input(f"Enter number {i}", min_value=1, max_value=69, value=default_num))
+    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
 
-# Place bonus number input field in the last column
-bonus_number = cols[2].number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
+# Place bonus number slider in the last column
+bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Create the lottery balls representation
 st.sidebar.write(
