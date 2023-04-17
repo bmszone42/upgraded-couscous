@@ -86,10 +86,17 @@ default_bonus_number = 4
 
 # Create input fields for user to enter numbers
 number_inputs = []
-for i, default_num in enumerate(default_numbers, start=1):
-    number_inputs.append(st.sidebar.number_input(f"Enter number {i}", min_value=1, max_value=69, value=default_num))
 
-bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
+# Create columns
+cols = st.sidebar.columns(3)
+
+# Place input fields in columns
+for i, default_num in enumerate(default_numbers, start=1):
+    col = cols[(i - 1) % 3]
+    number_inputs.append(col.number_input(f"Enter number {i}", min_value=1, max_value=69, value=default_num))
+
+# Place bonus number input field in the last column
+bonus_number = cols[2].number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
 
 # Create the lottery balls representation
 st.sidebar.write(
