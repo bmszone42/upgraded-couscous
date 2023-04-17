@@ -149,7 +149,7 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 st.write(f"The winning {lottery_game} numbers are:")
 st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
 
-title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: green;'>You Picked</h1>"
+title = "<h3 style='text-align: left; font-family: Arial, sans-serif; color: Black;'>You Picked the Magic Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
 # Display user's selected numbers with CSS
