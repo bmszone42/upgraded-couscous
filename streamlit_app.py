@@ -93,6 +93,9 @@ bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, v
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
 
+# Add two carriage returns at the bottom of the sidebar
+st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
+
 # Set the bonus ball color based on the selected game
 bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
 
