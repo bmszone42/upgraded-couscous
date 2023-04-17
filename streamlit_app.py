@@ -76,14 +76,6 @@ def create_html_table(dataframe):
 default_numbers = [9, 36, 41, 44, 59]
 default_bonus_number = 4
 
-# # Create inputs for user to enter numbers
-# number1 = st.sidebar.number_input("Enter first number", min_value=1, max_value=69, value=default_numbers[0])
-# number2 = st.sidebar.number_input("Enter second number", min_value=1, max_value=69, value=default_numbers[1])
-# number3 = st.sidebar.number_input("Enter third number", min_value=1, max_value=69, value=default_numbers[2])
-# number4 = st.sidebar.number_input("Enter fourth number", min_value=1, max_value=69, value=default_numbers[3])
-# number5 = st.sidebar.number_input("Enter fifth number", min_value=1, max_value=69, value=default_numbers[4])
-# bonus_number = st.sidebar.number_input("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number)
-
 # Create input sliders for user to enter numbers
 number_inputs = []
 
@@ -163,7 +155,7 @@ st.write(f"The winning {lottery_game} numbers are:")
 st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
 
 # Define user_numbers
-user_numbers = [number1, number2, number3, number4, number5]
+user_numbers = number_inputs
 # Display results
 entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
 st.markdown(entered_numbers, unsafe_allow_html=True)
