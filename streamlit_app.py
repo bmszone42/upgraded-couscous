@@ -134,10 +134,7 @@ def display_lottery_numbers(numbers, bonus_ball_color):
     return html_code
 
 # Display the lottery numbers in the sidebar
-st.sidebar.markdown(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
-
-# Add two carriage returns at the bottom of the sidebar
-st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
+st.sidebar.markdown(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color) + "<br><br><br>", unsafe_allow_html=True)
 
 # Get the winning numbers and dates based on the user's selection
 if lottery_game == "Powerball":
