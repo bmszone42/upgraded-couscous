@@ -136,6 +136,9 @@ def display_lottery_numbers(numbers, bonus_ball_color):
 # Display the lottery numbers in the sidebar
 st.sidebar.markdown(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color) + "<br><br><br>", unsafe_allow_html=True)
 
+# Add three carriage returns at the bottom of the sidebar
+st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
+
 # Get the winning numbers and dates based on the user's selection
 if lottery_game == "Powerball":
     winning_numbers, drawing_dates = get_powerball_data()
@@ -157,10 +160,6 @@ st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_colo
 
 # Define user_numbers
 user_numbers = number_inputs
-# Display results
-#entered_numbers = f"You entered the numbers <strong>{number1}</strong>, <strong>{number2}</strong>, <strong>{number3}</strong>, <strong>{number4}</strong>, <strong>{number5}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
-# entered_numbers = f"You entered the numbers <strong>{number_inputs[0]}</strong>, <strong>{number_inputs[1]}</strong>, <strong>{number_inputs[2]}</strong>, <strong>{number_inputs[3]}</strong>, <strong>{number_inputs[4]}</strong>, and <span style='color: red;'><strong>{bonus_number}</strong></span>"
-# st.markdown(entered_numbers, unsafe_allow_html=True)
 
 def calculate_prize(lottery_game, matched_numbers, matched_bonus):
     if lottery_game == "Powerball":
