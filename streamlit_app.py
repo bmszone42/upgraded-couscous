@@ -96,9 +96,8 @@ lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Me
 # Set the bonus ball color based on the selected game
 bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
 
-# Create the lottery balls representation
-st.sidebar.write(
-    f"""
+def display_lottery_numbers(numbers, bonus_ball_color):
+    html_code = f"""
     <style>
         .ball {{
             width: 50px;
@@ -125,18 +124,17 @@ st.sidebar.write(
             border: 1px solid black;
         }}
     </style>
-    <div class="ball white-ball">{number_inputs[0]}</div>
-    <div class="ball white-ball">{number_inputs[1]}</div>
-    <div class="ball white-ball">{number_inputs[2]}</div>
-    <div class="ball white-ball">{number_inputs[3]}</div>
-    <div class="ball white-ball">{number_inputs[4]}</div>
-    <div class="ball {bonus_ball_color}-ball">{bonus_number}</div>
-    """,
-    unsafe_allow_html=True,
-)
+    <div class="ball white-ball">{numbers[0]}</div>
+    <div class="ball white-ball">{numbers[1]}</div>
+    <div class="ball white-ball">{numbers[2]}</div>
+    <div class="ball white-ball">{numbers[3]}</div>
+    <div class="ball white-ball">{numbers[4]}</div>
+    <div class="ball {bonus_ball_color}-ball">{numbers[5]}</div>
+    """
+    return html_code
 
-# # Selector for Powerball or Mega Millions
-# lottery_game = st.sidebar.selectbox("Select the lottery game", ["Powerball", "Mega Millions"])
+# Display the lottery numbers in the sidebar
+st.sidebar.markdown(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
 
 # Get the winning numbers and dates based on the user's selection
 if lottery_game == "Powerball":
@@ -150,6 +148,9 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 # Display the winning numbers in an HTML table
 st.write(f"The winning {lottery_game} numbers are:")
 st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
+
+# Display user's selected numbers with CSS
+st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
 
 # Define user_numbers
 user_numbers = number_inputs
