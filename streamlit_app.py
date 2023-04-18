@@ -85,27 +85,33 @@ number_inputs = []
 # Create columns
 cols = st.sidebar.columns(3)
 
+# Define CSS style for slider
+style = """
+<style>
+div[data-baseweb="slider"] {
+  color: blue;
+}
+
+div[data-baseweb="sliderTrack"] {
+  background-color: blue;
+}
+
+div[data-baseweb="sliderThumb"] {
+  border-color: blue;
+}
+</style>
+"""
+
+# Display CSS style
+st.sidebar.markdown(style, unsafe_allow_html=True)
+
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
     col = cols[(i - 1) % 3]
-    number_inputs.append(col.slider(
-        f"Enter number {i}",
-        min_value=1,
-        max_value=69,
-        value=default_num,
-        step=1,
-        css="div[aria-label=\"Enter number\"] > div:first-child {background-color: blue;}"
-    ))
+    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
 
 # Place bonus number slider in the last column
-bonus_number = cols[2].slider(
-    "Enter bonus number",
-    min_value=1,
-    max_value=26,
-    value=default_bonus_number,
-    step=1,
-    css="div[aria-label=\"Enter number\"] > div:first-child {background-color: blue;}"
-)
+bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
