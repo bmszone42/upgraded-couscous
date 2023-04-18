@@ -10,13 +10,13 @@ st.markdown(title, unsafe_allow_html=True)
 
 # Set default numbers
 if "mega_numbers" not in st.session_state:
-    st.session_state.mega_numbers = [9, 36, 41, 44, 59]
+    st.session_state.mega_numbers = [8, 33, 38, 50, 53]
 if "mega_bonus" not in st.session_state:
-    st.session_state.mega_bonus = 4
+    st.session_state.mega_bonus = 25
 if "power_numbers" not in st.session_state:
-    st.session_state.power_numbers = [10, 17, 25, 45, 63]
+    st.session_state.power_numbers = [18, 29, 35, 44, 60]
 if "power_bonus" not in st.session_state:
-    st.session_state.power_bonus = 12
+    st.session_state.power_bonus = 26
     
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
