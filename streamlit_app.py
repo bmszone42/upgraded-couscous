@@ -88,29 +88,38 @@ cols = st.sidebar.columns(3)
 # Define the CSS style for the sliders
 slider_style = """
 <style>
-    .streamlit-slider .stSlider .rc-slider-track {
-        background-color: blue;
-    }
-    .streamlit-slider .stSlider .rc-slider-handle {
-        background-color: blue;
-        border-color: blue;
-    }
-    .streamlit-slider .stSlider .rc-slider-handle:hover {
-        background-color: blue;
-        border-color: blue;
-    }
-    .streamlit-slider .stSlider .rc-slider-handle:focus {
-        box-shadow: none;
-    }
-    .streamlit-selectbox .Select {
-        background-color: white;
-    }
-    .streamlit-selectbox .Select:focus {
-        border-color: blue;
-        box-shadow: none;
-    }
+
+[data-testid="stSlider"] .rc-slider-rail {
+    height: 10px;
+    background-color: blue;
+    border-radius: 10px;
+    border-color: blue;
+}
+
+[data-testid="stSlider"] .rc-slider-track {
+    height: 10px;
+    background-color: blue;
+    border-radius: 10px;
+    border-color: blue;
+}
+
+[data-testid="stSlider"] .rc-slider-handle {
+    height: 20px;
+    width: 20px;
+    margin-top: -5px;
+    margin-left: -10px;
+    background-color: white;
+    border-color: blue;
+    box-shadow: none;
+}
+
+[data-testid="stSlider"] .rc-slider-handle:focus {
+    box-shadow: none;
+}
+
 </style>
 """
+
 
 # Add the CSS style to the sidebar
 st.sidebar.markdown(slider_style, unsafe_allow_html=True)
