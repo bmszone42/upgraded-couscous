@@ -89,15 +89,15 @@ cols = st.sidebar.columns(3)
 style = """
 <style>
 div[data-baseweb="slider"] {
-  color: blue;
+  color: darkblue;
 }
 
 div[data-baseweb="sliderTrack"] {
-  background-color: blue;
+  background-color: darkblue;
 }
 
 div[data-baseweb="sliderThumb"] {
-  border-color: blue;
+  border-color: darkblue;
 }
 </style>
 """
