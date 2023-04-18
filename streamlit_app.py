@@ -85,55 +85,35 @@ number_inputs = []
 # Create columns
 cols = st.sidebar.columns(3)
 
-# Define CSS style for sliders
+# Define CSS style for slider
 slider_style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
-  background-color: blue;
+  background-color: blue !important;
 }
 
 [data-testid="stSlider"] .rc-slider-track {
-  background-color: blue;
+  background-color: blue !important;
 }
 
 [data-testid="stSlider"] .rc-slider-handle {
-  border-color: blue;
-  background-color: blue;
-  box-shadow: none;
+  border-color: blue !important;
+  box-shadow: none !important;
 }
 
 [data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
-[data-testid="stSlider"] .rc-slider-handle:hover {
-  border-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-handle:active:focus {
-  box-shadow: none;
-}
-
-[data-testid="stSlider"] .rc-slider-handle:focus:active {
-  box-shadow: none;
-}
-
-[data-testid="stSlider"] .rc-slider-handle:hover:active {
-  border-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-mark-text {
-  color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-mark-text-active {
-  color: blue;
+[data-testid="stNumberInput"] {
+  color: blue !important;
 }
 </style>
 """
 
 # Add the CSS style to the sidebar
 st.sidebar.markdown(slider_style, unsafe_allow_html=True)
+
 
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
