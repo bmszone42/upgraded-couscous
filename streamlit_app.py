@@ -7,22 +7,6 @@ from datetime import datetime
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
-input[type=range]::-webkit-slider-runnable-track {
-  background-color: blue;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  background-color: blue;
-}
-
-input[type=range]::-moz-range-track {
-  background-color: blue;
-}
-
-input[type=range]::-moz-range-thumb {
-  background-color: blue;
-}
-
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
@@ -104,10 +88,24 @@ cols = st.sidebar.columns(3)
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
     col = cols[(i - 1) % 3]
-    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
+    number_inputs.append(col.slider(
+        f"Enter number {i}",
+        min_value=1,
+        max_value=69,
+        value=default_num,
+        step=1,
+        css="div[aria-label=\"Enter number\"] > div:first-child {background-color: blue;}"
+    ))
 
 # Place bonus number slider in the last column
-bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
+bonus_number = cols[2].slider(
+    "Enter bonus number",
+    min_value=1,
+    max_value=26,
+    value=default_bonus_number,
+    step=1,
+    css="div[aria-label=\"Enter number\"] > div:first-child {background-color: blue;}"
+)
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
