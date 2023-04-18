@@ -86,29 +86,29 @@ number_inputs = []
 cols = st.sidebar.columns(3)
 
 
-slider_style = """
-<style>
-[data-testid="stSlider"] .rc-slider-rail {
-  background-color: green !important;
-}
+# slider_style = """
+# <style>
+# [data-testid="stSlider"] .rc-slider-rail {
+#   background-color: green !important;
+# }
 
-[data-testid="stSlider"] .rc-slider-track {
-  background-color: green !important;
-}
+# [data-testid="stSlider"] .rc-slider-track {
+#   background-color: green !important;
+# }
 
-[data-testid="stSlider"] .rc-slider-handle {
-  border-color: green !important;
-  box-shadow: none !important;
-}
+# [data-testid="stSlider"] .rc-slider-handle {
+#   border-color: green !important;
+#   box-shadow: none !important;
+# }
 
-[data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none !important;
-}
-</style>
-"""
+# [data-testid="stSlider"] .rc-slider-handle:focus {
+#   box-shadow: none !important;
+# }
+# </style>
+# """
 
-# Add the CSS style to the sidebar
-st.sidebar.markdown(slider_style, unsafe_allow_html=True)
+# # Add the CSS style to the sidebar
+# st.sidebar.markdown(slider_style, unsafe_allow_html=True)
 
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
