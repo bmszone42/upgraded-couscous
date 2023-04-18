@@ -7,6 +7,22 @@ from datetime import datetime
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
+input[type=range]::-webkit-slider-runnable-track {
+  background-color: blue;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  background-color: blue;
+}
+
+input[type=range]::-moz-range-track {
+  background-color: blue;
+}
+
+input[type=range]::-moz-range-thumb {
+  background-color: blue;
+}
+
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
