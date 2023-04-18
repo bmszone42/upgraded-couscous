@@ -3,12 +3,11 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
-from streamlit.hashing import _CodeHasher
-from streamlit.report_thread import get_report_ctx
 
-class SessionState(object):
+
+class SessionState:
     def __init__(self, **kwargs):
-        self.hash_funcs = {_CodeHasher: lambda _: None}
+        self.hash_funcs = {"": lambda _: None}
         for key, val in kwargs.items():
             setattr(self, key, val)
 
