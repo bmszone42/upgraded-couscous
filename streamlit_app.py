@@ -181,10 +181,10 @@ st.markdown(title, unsafe_allow_html=True)
 # Display user's selected numbers with CSS
 st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
 
-#Store the user's selected numbers as defaults
+# Store the user's selected numbers as defaults
 if st.sidebar.button("Save as defaults"):
-    save_defaults(session_state, lottery_game, number_inputs, bonus_number)
-    
+    save_defaults(lottery_game, number_inputs, bonus_number)
+  
 # Add three carriage returns at the bottom of the sidebar
 st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
 
