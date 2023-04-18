@@ -86,21 +86,23 @@ number_inputs = []
 cols = st.sidebar.columns(3)
 
 
-# Define CSS style for slider
 slider_style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
-  background-color: green;
+  background-color: green !important;
 }
+
 [data-testid="stSlider"] .rc-slider-track {
-  background-color: green;
+  background-color: green !important;
 }
+
 [data-testid="stSlider"] .rc-slider-handle {
-  border-color: green;
-  box-shadow: none;
+  border-color: green !important;
+  box-shadow: none !important;
 }
+
 [data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 </style>
 """
