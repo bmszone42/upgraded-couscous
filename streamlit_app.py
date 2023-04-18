@@ -88,6 +88,23 @@ cols = st.sidebar.columns(3)
 # Define the CSS style for the sliders
 slider_style = """
 <style>
+
+div[data-baseweb="slider"] {
+  color: blue;
+}
+
+div[data-baseweb="sliderTrack"] {
+  background-color: blue;
+}
+
+div[data-baseweb="sliderThumb"] {
+  border-color: blue;
+}
+
+div[data-baseweb="sliderRail"] {
+  border-color: blue;
+}
+
 [data-testid="stSlider"] .rc-slider-rail {
   background-color: blue;
 }
