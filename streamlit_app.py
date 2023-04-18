@@ -3,26 +3,21 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
-import hashlib
-
-class SessionState(object):
-    def __init__(self, **kwargs):
-        self.hash_funcs = {hashlib.sha256: lambda _: None}
-        self.power_numbers = [10, 17, 25, 45, 63]
-        self.power_bonus = 12
-        self.mega_numbers = [9, 36, 41, 44, 59]
-        self.mega_bonus = 4
-        for key, val in kwargs.items():
-            setattr(self, key, val)
 
 
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
 # Set default numbers
-session_state = SessionState(mega_numbers=[9, 36, 41, 44, 59], mega_bonus=4,
-                             power_numbers=[10, 17, 25, 45, 63], power_bonus=12)
-
+if "mega_numbers" not in st.session_state:
+    st.session_state.mega_numbers = [9, 36, 41, 44, 59]
+if "mega_bonus" not in st.session_state:
+    st.session_state.mega_bonus = 4
+if "power_numbers" not in st.session_state:
+    st.session_state.power_numbers = [10, 17, 25, 45, 63]
+if "power_bonus" not in st.session_state:
+    st.session_state.power_bonus = 12
+    
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
@@ -91,24 +86,24 @@ def create_html_table(dataframe, lottery_game):
     table_html += "</table><br><br>"
     return table_html
 
-def save_defaults(session_state, lottery_game, number_inputs, bonus_number):
+def save_defaults(lottery_game, number_inputs, bonus_number):
     if lottery_game == "Powerball":
-        session_state.power_numbers = number_inputs
-        session_state.power_bonus = bonus_number
+        st.session_state.power_numbers = number_inputs
+        st.session_state.power_bonus = bonus_number
     else:
-        session_state.mega_numbers = number_inputs
-        session_state.mega_bonus = bonus_number
+        st.session_state.mega_numbers = number_inputs
+        st.session_state.mega_bonus = bonus_number
     st.sidebar.write("Your numbers have been saved as defaults!")
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
 
 if lottery_game == "Powerball":
-    default_numbers = session_state.power_numbers
-    default_bonus_number = session_state.power_bonus
+    default_numbers = st.session_state.power_numbers
+    default_bonus_number = st.session_state.power_bonus
 else:
-    default_numbers = session_state.mega_numbers
-    default_bonus_number = session_state.mega_bonus
+    default_numbers = st.session_state.mega_numbers
+    default_bonus_number = st.session_state.mega_bonus
 
 # Set the bonus ball color based on the selected game
 bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
