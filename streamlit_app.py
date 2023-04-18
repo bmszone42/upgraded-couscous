@@ -5,9 +5,13 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-class SessionState:
+class SessionState(object):
     def __init__(self, **kwargs):
-        self.hash_funcs = {"": lambda _: None}
+        self.hash_funcs = {_CodeHasher: lambda _: None}
+        self.power_numbers = [10, 17, 25, 45, 63]
+        self.power_bonus = 12
+        self.mega_numbers = [9, 36, 41, 44, 59]
+        self.mega_bonus = 4
         for key, val in kwargs.items():
             setattr(self, key, val)
 
@@ -85,6 +89,15 @@ def create_html_table(dataframe, lottery_game):
     
     table_html += "</table><br><br>"
     return table_html
+
+def save_defaults(session_state, lottery_game, number_inputs, bonus_number):
+    if lottery_game == "Powerball":
+        session_state.power_numbers = number_inputs
+        session_state.power_bonus = bonus_number
+    else:
+        session_state.mega_numbers = number_inputs
+        session_state.mega_bonus = bonus_number
+    st.sidebar.write("Your numbers have been saved as defaults!")
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
@@ -174,13 +187,7 @@ st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_colo
 
 #Store the user's selected numbers as defaults
 if st.sidebar.button("Save as defaults"):
-    if lottery_game == "Powerball":
-        session_state.power_numbers = number_inputs
-        session_state.power_bonus = bonus_number
-    else:
-        session_state.mega_numbers = number_inputs
-        session_state.mega_bonus = bonus_number
-    st.sidebar.write("Your numbers have been saved as defaults!")
+    save_defaults(session_state, lottery_game, number_inputs, bonus_number)
     
 # Add three carriage returns at the bottom of the sidebar
 st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
