@@ -103,7 +103,7 @@ div[data-baseweb="sliderThumb"] {
 """
 
 # Add the CSS style to the sidebar
-st.sidebar.markdown(slider_style, unsafe_allow_html=True)
+st.sidebar.markdown(style, unsafe_allow_html=True)
 
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
