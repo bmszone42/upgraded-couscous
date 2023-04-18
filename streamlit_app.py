@@ -88,21 +88,21 @@ cols = st.sidebar.columns(3)
 # Define the CSS style for the sliders
 slider_style = """
 <style>
-[data-testid="stSlider"] .rc-slider-rail {
-    background-color: blue !important;
+.st-bw .st-dd .stSlider .rc-slider-rail {
+  background-color: blue;
 }
 
-[data-testid="stSlider"] .rc-slider-track {
-    background-color: blue !important;
+.st-bw .st-dd .stSlider .rc-slider-track {
+  background-color: blue;
 }
 
-[data-testid="stSlider"] .rc-slider-handle {
-    border-color: blue !important;
-    box-shadow: none !important;
+.st-bw .st-dd .stSlider .rc-slider-handle {
+  border-color: blue;
+  box-shadow: none;
 }
 
-[data-testid="stSlider"] .rc-slider-handle:focus {
-    box-shadow: none !important;
+.st-bw .st-dd .stSlider .rc-slider-handle:focus {
+  box-shadow: none;
 }
 </style>
 """
