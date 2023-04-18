@@ -88,39 +88,27 @@ cols = st.sidebar.columns(3)
 # Define the CSS style for the sliders
 slider_style = """
 <style>
-
-div[data-baseweb="slider"] {
-  color: blue;
-}
-
-div[data-baseweb="sliderTrack"] {
-  background-color: blue;
-}
-
-div[data-baseweb="sliderThumb"] {
-  border-color: blue;
-}
-
-div[data-baseweb="sliderRail"] {
-  border-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-rail {
-  background-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-track {
-  background-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-handle {
-  border-color: blue;
-  box-shadow: none;
-}
-
-[data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none;
-}
+    .streamlit-slider .stSlider .rc-slider-track {
+        background-color: blue;
+    }
+    .streamlit-slider .stSlider .rc-slider-handle {
+        background-color: blue;
+        border-color: blue;
+    }
+    .streamlit-slider .stSlider .rc-slider-handle:hover {
+        background-color: blue;
+        border-color: blue;
+    }
+    .streamlit-slider .stSlider .rc-slider-handle:focus {
+        box-shadow: none;
+    }
+    .streamlit-selectbox .Select {
+        background-color: white;
+    }
+    .streamlit-selectbox .Select:focus {
+        border-color: blue;
+        box-shadow: none;
+    }
 </style>
 """
 
