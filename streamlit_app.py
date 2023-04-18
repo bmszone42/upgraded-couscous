@@ -108,19 +108,13 @@ else:
 # Set the bonus ball color based on the selected game
 bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
 
-# Create input sliders for user to enter numbers
+# Place sliders for main numbers
 number_inputs = []
-
-# Create columns
-cols = st.sidebar.columns(2)
-
-# Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
-    col = cols[(i - 1) % 2]
-    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
+    number_inputs.append(st.sidebar.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
 
-# Place bonus number slider in the first column
-bonus_number = cols[0].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
+# Place bonus number slider
+bonus_number = st.sidebar.slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 def display_lottery_numbers(numbers, bonus_ball_color):
     html_code = f"""
