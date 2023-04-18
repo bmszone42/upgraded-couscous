@@ -8,6 +8,23 @@ from datetime import datetime
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
 
+# Define custom CSS as a string
+custom_css = """
+/* Change the color of slider bars to green */
+input[type="range"]::-webkit-slider-thumb {
+  background-color: green;
+}
+input[type="range"]::-moz-range-thumb {
+  background-color: green;
+}
+input[type="range"]::-ms-thumb {
+  background-color: green;
+}
+"""
+
+# Add custom CSS to the Streamlit app
+st.markdown(f'<style>{custom_css}</style>', unsafe_allow_html=True)
+
 # Set default numbers
 if "mega_numbers" not in st.session_state:
     st.session_state.mega_numbers = [8, 33, 38, 50, 53]
