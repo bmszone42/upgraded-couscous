@@ -200,7 +200,7 @@ if st.sidebar.button("Save as defaults"):
     save_defaults(lottery_game, number_inputs, bonus_number)
   
 # # Add three carriage returns at the bottom of the sidebar
-# st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
+st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
 
 # Define user_numbers
 user_numbers = number_inputs
