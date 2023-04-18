@@ -5,17 +5,16 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from streamlit.hashing_context import _CodeHasher
 
-
-
 class SessionState(object):
     def __init__(self, **kwargs):
-        self.hash_funcs = {_CodeHasher: lambda _: None}
+        self.hash_funcs = {hashlib.sha256: lambda _: None}
         self.power_numbers = [10, 17, 25, 45, 63]
         self.power_bonus = 12
         self.mega_numbers = [9, 36, 41, 44, 59]
         self.mega_bonus = 4
         for key, val in kwargs.items():
             setattr(self, key, val)
+
 
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
