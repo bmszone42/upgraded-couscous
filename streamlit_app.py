@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
+import hashlib
 
 class SessionState(object):
     def __init__(self, **kwargs):
