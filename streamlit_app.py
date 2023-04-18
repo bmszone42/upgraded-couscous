@@ -86,6 +86,7 @@ number_inputs = []
 cols = st.sidebar.columns(3)
 
 # Define CSS style for slider
+style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
   background-color: blue;
@@ -106,7 +107,7 @@ cols = st.sidebar.columns(3)
   box-shadow: none;
 }
 </style>
-
+"""
 
 # Add the CSS style to the sidebar
 st.sidebar.markdown(style, unsafe_allow_html=True)
