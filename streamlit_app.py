@@ -11,15 +11,15 @@ st.markdown(title, unsafe_allow_html=True)
 # Define custom CSS as a string
 custom_css = """
 /* Change the color of slider bars to green */
-input[type="range"]::-webkit-slider-thumb {
+input[type="range"].st-bi::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     background-color: green !important;
 }
-input[type="range"]::-moz-range-thumb {
+input[type="range"].st-bi::-moz-range-thumb {
     -moz-appearance: none !important;
     background-color: green !important;
 }
-input[type="range"]::-ms-thumb {
+input[type="range"].st-bi::-ms-thumb {
     -ms-appearance: none !important;
     background-color: green !important;
 }
