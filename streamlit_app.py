@@ -89,27 +89,29 @@ cols = st.sidebar.columns(3)
 slider_style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
-  background-color: blue !important;
+  background-color: blue;
 }
 
 [data-testid="stSlider"] .rc-slider-track {
-  background-color: blue !important;
+  background-color: blue;
 }
 
 [data-testid="stSlider"] .rc-slider-handle {
-  border-color: blue !important;
-  box-shadow: none !important;
+  border-color: blue;
+  box-shadow: none;
 }
 
 [data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none !important;
+  box-shadow: none;
+  background-color: blue;
 }
 
-[data-testid="stNumberInput"] {
-  color: blue !important;
+[data-testid="stSlider"] .rc-slider-dot {
+  background-color: blue;
 }
 </style>
 """
+
 
 # Add the CSS style to the sidebar
 st.sidebar.markdown(slider_style, unsafe_allow_html=True)
