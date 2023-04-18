@@ -12,13 +12,13 @@ st.markdown(title, unsafe_allow_html=True)
 custom_css = """
 /* Change the color of slider bars to green */
 input[type="range"]::-webkit-slider-thumb {
-  background-color: green;
+  background-color: green !important;
 }
 input[type="range"]::-moz-range-thumb {
-  background-color: green;
+  background-color: green !important;
 }
 input[type="range"]::-ms-thumb {
-  background-color: green;
+  background-color: green !important;
 }
 """
 
