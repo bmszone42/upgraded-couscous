@@ -179,8 +179,8 @@ st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_colo
 if st.sidebar.button("Save as defaults"):
     save_defaults(lottery_game, number_inputs, bonus_number)
   
-# Add three carriage returns at the bottom of the sidebar
-st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
+# # Add three carriage returns at the bottom of the sidebar
+# st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
 
 # Define user_numbers
 user_numbers = number_inputs
