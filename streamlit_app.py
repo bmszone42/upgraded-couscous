@@ -86,10 +86,10 @@ number_inputs = []
 cols = st.sidebar.columns(3)
 
 # Define CSS style for slider
-slider_style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
   background-color: blue;
+  border-color: blue;
 }
 
 [data-testid="stSlider"] .rc-slider-track {
@@ -99,22 +99,17 @@ slider_style = """
 [data-testid="stSlider"] .rc-slider-handle {
   border-color: blue;
   box-shadow: none;
+  background-color: blue;
 }
 
 [data-testid="stSlider"] .rc-slider-handle:focus {
   box-shadow: none;
-  background-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-dot {
-  background-color: blue;
 }
 </style>
-"""
 
 
 # Add the CSS style to the sidebar
-st.sidebar.markdown(slider_style, unsafe_allow_html=True)
+st.sidebar.markdown(style, unsafe_allow_html=True)
 
 
 # Place sliders in columns
