@@ -3,9 +3,21 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
+from streamlit.hashing import _CodeHasher
+from streamlit.report_thread import get_report_ctx
+
+class SessionState(object):
+    def __init__(self, **kwargs):
+        self.hash_funcs = {_CodeHasher: lambda _: None}
+        for key, val in kwargs.items():
+            setattr(self, key, val)
 
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
+
+# Set default numbers
+session_state = SessionState(mega_numbers=[9, 36, 41, 44, 59], mega_bonus=4,
+                             power_numbers=[10, 17, 25, 45, 63], power_bonus=12)
 
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
@@ -75,9 +87,18 @@ def create_html_table(dataframe, lottery_game):
     table_html += "</table><br><br>"
     return table_html
 
-# Set default numbers
-default_numbers = [9, 36, 41, 44, 59]
-default_bonus_number = 4
+# Choose the game: Powerball or Mega Millions
+lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
+
+if lottery_game == "Powerball":
+    default_numbers = session_state.power_numbers
+    default_bonus_number = session_state.power_bonus
+else:
+    default_numbers = session_state.mega_numbers
+    default_bonus_number = session_state.mega_bonus
+
+# Set the bonus ball color based on the selected game
+bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
 
 # Create input sliders for user to enter numbers
 number_inputs = []
@@ -92,12 +113,6 @@ for i, default_num in enumerate(default_numbers, start=1):
 
 # Place bonus number slider in the last column
 bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
-
-# Choose the game: Powerball or Mega Millions
-lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
-
-# Set the bonus ball color based on the selected game
-bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
 
 def display_lottery_numbers(numbers, bonus_ball_color):
     html_code = f"""
@@ -139,9 +154,6 @@ def display_lottery_numbers(numbers, bonus_ball_color):
 # Display the lottery numbers in the sidebar
 st.sidebar.markdown(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color) + "<br><br><br>", unsafe_allow_html=True)
 
-# Add three carriage returns at the bottom of the sidebar
-st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
-
 # Get the winning numbers and dates based on the user's selection
 if lottery_game == "Powerball":
     winning_numbers, drawing_dates = get_powerball_data()
@@ -160,6 +172,19 @@ st.markdown(title, unsafe_allow_html=True)
 
 # Display user's selected numbers with CSS
 st.write(display_lottery_numbers(number_inputs + [bonus_number], bonus_ball_color), unsafe_allow_html=True)
+
+#Store the user's selected numbers as defaults
+if st.sidebar.button("Save as defaults"):
+    if lottery_game == "Powerball":
+        session_state.power_numbers = number_inputs
+        session_state.power_bonus = bonus_number
+    else:
+        session_state.mega_numbers = number_inputs
+        session_state.mega_bonus = bonus_number
+    st.sidebar.write("Your numbers have been saved as defaults!")
+    
+# Add three carriage returns at the bottom of the sidebar
+st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)
 
 # Define user_numbers
 user_numbers = number_inputs
