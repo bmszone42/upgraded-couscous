@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
+from st_balloons import slider
 
 title = "<h3 style='text-align: center; font-family: Arial, sans-serif; color: pink;'>PowerBall & Mega Millions Checker</h1>"
 st.markdown(title, unsafe_allow_html=True)
@@ -85,41 +86,21 @@ number_inputs = []
 # Create columns
 cols = st.sidebar.columns(3)
 
-# Define CSS style for slider
-style = """
-<style>
-[data-testid="stSlider"] .rc-slider-rail {
-  background-color: blue;
-  border-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-track {
-  background-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-handle {
-  border-color: blue;
-  box-shadow: none;
-  background-color: blue;
-}
-
-[data-testid="stSlider"] .rc-slider-handle:focus {
-  box-shadow: none;
-}
-</style>
-"""
-
-# Add the CSS style to the sidebar
-st.sidebar.markdown(style, unsafe_allow_html=True)
-
-
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
     col = cols[(i - 1) % 3]
-    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
+    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1, key=f"number{i}", on_change=None, help=None, format=None, width=None))
 
 # Place bonus number slider in the last column
-bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
+bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1, key="bonus_number", on_change=None, help=None, format=None, width=None)
+
+# # Place sliders in columns
+# for i, default_num in enumerate(default_numbers, start=1):
+#     col = cols[(i - 1) % 3]
+#     number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
+
+# # Place bonus number slider in the last column
+# bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
