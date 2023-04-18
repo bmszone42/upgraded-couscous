@@ -52,7 +52,7 @@ def get_powerball_data():
 
     return winning_numbers, drawing_dates
 
-def create_html_table(dataframe):
+def create_html_table(dataframe, lottery_game):
     table_html = '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">'
     table_html += "<tr><th>Date</th><th>Winning Numbers</th></tr>"
     
@@ -64,8 +64,11 @@ def create_html_table(dataframe):
         for num in row['Winning Numbers'][:-1]:  # Main numbers
             table_html += f"<span style='padding: 5px; display: inline-block; margin-right: 3px;'>{num}</span>"
         
-        # Powerball number in red
-        table_html += f"<span style='padding: 5px; display: inline-block; margin-right: 3px; color: red;'>{row['Winning Numbers'][-1]}</span>"
+        # Set the bonus ball color based on the selected game
+        bonus_ball_color = "red" if lottery_game == "Powerball" else "yellow"
+
+        # Bonus ball with the appropriate color
+        table_html += f"<span style='padding: 5px; display: inline-block; margin-right: 3px; color: {bonus_ball_color};'>{row['Winning Numbers'][-1]}</span>"
         
         table_html += "</td></tr>"
     
@@ -150,7 +153,7 @@ winning_df = pd.DataFrame({'Date': drawing_dates, 'Winning Numbers': winning_num
 
 # Display the winning numbers in an HTML table
 st.write(f"The winning {lottery_game} numbers are:")
-st.markdown(create_html_table(winning_df), unsafe_allow_html=True)
+st.markdown(create_html_table(winning_df, lottery_game), unsafe_allow_html=True)
 
 title = "<h3 style='text-align: left; font-family: Arial, sans-serif; color: Black;'>You Picked the Magic Numbers</h1>"
 st.markdown(title, unsafe_allow_html=True)
