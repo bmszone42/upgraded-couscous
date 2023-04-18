@@ -90,18 +90,15 @@ cols = st.sidebar.columns(3)
 slider_style = """
 <style>
 [data-testid="stSlider"] .rc-slider-rail {
-  background-color: blue;
+  background-color: green;
 }
-
 [data-testid="stSlider"] .rc-slider-track {
-  background-color: blue;
+  background-color: green;
 }
-
 [data-testid="stSlider"] .rc-slider-handle {
-  border-color: blue;
+  border-color: green;
   box-shadow: none;
 }
-
 [data-testid="stSlider"] .rc-slider-handle:focus {
   box-shadow: none;
 }
