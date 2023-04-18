@@ -108,10 +108,10 @@ st.sidebar.markdown(slider_style, unsafe_allow_html=True)
 # Place sliders in columns
 for i, default_num in enumerate(default_numbers, start=1):
     col = cols[(i - 1) % 3]
-    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1, key=f"slider_{i}"))
+    number_inputs.append(col.slider(f"Enter number {i}", min_value=1, max_value=69, value=default_num, step=1))
 
 # Place bonus number slider in the last column
-bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1, key="slider_bonus")
+bonus_number = cols[2].slider("Enter bonus number", min_value=1, max_value=26, value=default_bonus_number, step=1)
 
 # Choose the game: Powerball or Mega Millions
 lottery_game = st.sidebar.selectbox("Choose the game", options=["Powerball", "Mega Millions"])
