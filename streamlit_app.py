@@ -85,24 +85,19 @@ number_inputs = []
 # Create columns
 cols = st.sidebar.columns(3)
 
-# Define the CSS style for the sliders
-slider_style = """
+# Define CSS style for slider
+style = """
 <style>
-.st-bw .st-dd .stSlider .rc-slider-rail {
+div[data-baseweb="slider"] {
+  color: blue;
+}
+
+div[data-baseweb="sliderTrack"] {
   background-color: blue;
 }
 
-.st-bw .st-dd .stSlider .rc-slider-track {
-  background-color: blue;
-}
-
-.st-bw .st-dd .stSlider .rc-slider-handle {
+div[data-baseweb="sliderThumb"] {
   border-color: blue;
-  box-shadow: none;
-}
-
-.st-bw .st-dd .stSlider .rc-slider-handle:focus {
-  box-shadow: none;
 }
 </style>
 """
