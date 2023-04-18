@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
+from streamlit.hashing_context import _CodeHasher
+
 
 
 class SessionState(object):
