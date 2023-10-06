@@ -68,7 +68,7 @@ def get_megamillions_data():
     # Print the beginning of the page content to verify the page was fetched correctly
     st.write(soup.prettify()[:500])
     
-    rows = soup.select('tbody.c-results-table__items tr.c-result-card')
+    rows = soup.select('.c-result-card')
     
     # Print the number of rows found to debug
     st.write(f"Number of rows found: {len(rows)}")
@@ -80,9 +80,9 @@ def get_megamillions_data():
         if not row.select_one('time.c-result-card__title'):
             continue
 
-        date = row.select_one('time.c-result-card__title').text.strip()
-        numbers = [int(num.span.text.strip()) for num in row.select('li.c-ball.c-result__item.c-ball--default')]
-        megaball = [int(mb.span.text.strip()) for mb in row.select('li.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')]
+        date = row.select_one('.c-result-card__title').text.strip()
+        numbers = [int(num.span.text.strip()) for num in row.select('.c-result__item.c-ball--default')]
+        megaball = [int(mb.span.text.strip()) for mb in row.select('.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')]
         
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
