@@ -38,25 +38,49 @@ if "power_numbers" not in st.session_state:
 if "power_bonus" not in st.session_state:
     st.session_state.power_bonus = 26
     
+# def get_megamillions_data():
+#     url = "https://www.lotteryusa.com/mega-millions/"
+#     page = requests.get(url)
+#     soup = BeautifulSoup(page.content, 'html.parser')
+#     rows = soup.select('.c-result-card')
+    
+#     winning_numbers = []
+#     drawing_dates = []
+
+#     for row in rows:
+#         date = row.select_one('.c-result-card__title').text.strip()
+#         megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
+#         numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-ball--default.c-result__item')]
+
+#         drawing_dates.append(date)
+#         winning_numbers.append(numbers + megaball)
+    
+#     return winning_numbers, drawing_dates
+
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    rows = soup.select('.c-result-card')
+    rows = soup.select('tr.c-result-card')  # Updated selector for rows
     
     winning_numbers = []
     drawing_dates = []
 
     for row in rows:
+        # Parsing the drawing date
         date = row.select_one('.c-result-card__title').text.strip()
-        megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
-        numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-ball--default.c-result__item')]
-
+        
+        # Parsing the winning numbers
+        numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-result__item.c-ball--default .c-ball__label')]
+        
+        # Parsing the Mega Ball number
+        megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow .c-ball__label')]
+        
+        # Appending the data to the lists
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
     
     return winning_numbers, drawing_dates
-
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
