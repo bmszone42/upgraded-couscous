@@ -60,43 +60,6 @@ def get_megamillions_data():
         winning_numbers.append(numbers + megaball)
     
     return winning_numbers, drawing_dates
-
-# def get_megamillions_data():
-#     url = "https://www.lotteryusa.com/mega-millions/"
-#     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537'}
-#     page = requests.get(url, headers=headers)
-#     st.write(page.status_code)
-
-#     soup = BeautifulSoup(page.content, 'html.parser')
-    
-#     # Print the beginning of the page content to verify the page was fetched correctly
-#     st.write(soup.prettify()[:500])
-    
-#      # Assuming that rows contain the information of the list like above
-#     rows = soup.select('div.c-result-card__result-row')
-    
-#     st.write(f"Number of rows found: {len(rows)}")
-    
-#     winning_numbers = []
-#     drawing_dates = []
-    
-#     for row in rows:
-#         # Assuming the date can be found in each row under a specific class or id
-#         # Replace 'time.c-result-card__title' with the actual selector for the date
-#         if not row.select_one('time.c-result-card__title'):
-#             continue
-
-#         date = row.select_one('time.c-result-card__title').text.strip()
-        
-#         numbers = [int(num.text) for num in row.select('li.c-ball.c-result__item.c-ball--default span.c-ball__label')]
-#         megaball = [int(mb.text) for mb in row.select('li.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')]
-        
-#         drawing_dates.append(date)
-#         winning_numbers.append(numbers + megaball)
-        
-#         st.write(f"{date}: {numbers + megaball}")
-    
-    # return winning_numbers, drawing_dates
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
