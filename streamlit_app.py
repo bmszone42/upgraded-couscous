@@ -77,13 +77,21 @@ def get_megamillions_data():
     drawing_dates = []
     
     for row in rows:
+        # Skip rows without a date
         if not row.select_one('time.c-result-card__title'):
             continue
+    
+        # Extract the drawing date
+        date = row.select_one('time.c-result-card__title').text.strip()
+    
+        # Extract the winning numbers
+        numbers_elements = row.select('li.c-ball.c-result__item.c-ball--default')
+        numbers = [int(el.select_one('span.c-ball__label').text.strip()) for el in numbers_elements if el.select_one('span.c-ball__label')]
+    
+        # Extract the Mega Ball
+        megaball_elements = row.select('li.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')
+        megaball = [int(el.text.strip()) for el in megaball_elements if el]
 
-        date = row.select_one('.c-result-card__title').text.strip()
-        numbers = [int(num.span.text.strip()) for num in row.select('.c-result__item.c-ball--default')]
-        megaball = [int(mb.span.text.strip()) for mb in row.select('.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')]
-        
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
         
