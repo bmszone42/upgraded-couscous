@@ -85,8 +85,8 @@ def get_megamillions_data():
         date = row.select_one('time.c-result-card__title').text.strip()
 
         # Extract the winning numbers
-        numbers_elements = row.select('li.c-ball.c-result__item.c-ball--default')
-        numbers = [int(el.select_one('span.c-ball__label').text.strip()) for el in numbers_elements if el.select_one('span.c-ball__label')]
+        numbers_elements = row.select('li.c-ball.c-result__item.c-ball--default span.c-ball__label')
+        numbers = [int(el.text.strip()) for el in numbers_elements if el]
 
         # Extract the Mega Ball
         megaball_elements = row.select('li.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')
@@ -100,7 +100,6 @@ def get_megamillions_data():
         st.write(f"{date}: {numbers + megaball}")
     
     return winning_numbers, drawing_dates
-
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
