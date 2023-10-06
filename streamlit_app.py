@@ -46,15 +46,15 @@ def get_megamillions_data():
 
     soup = BeautifulSoup(page.content, 'html.parser')
     
-    rows = soup.select('.c-result-card')
+    rows = soup.select('tr.c-result-card')
     
     winning_numbers = []
     drawing_dates = []
 
     for row in rows:
-        date = row.select_one('.c-result-card__title').text.strip()
-        megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
-        numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-ball--default.c-result__item')]
+        date = row.select_one('time.c-result-card__title').text.strip()
+        megaball = [int(n.text) for n in row.select('li.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow')]
+        numbers = [int(num.text.strip()) for num in row.select('li.c-ball.c-ball--default.c-result__item')]
 
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
@@ -96,7 +96,7 @@ def get_megamillions_data():
         
 #         st.write(f"{date}: {numbers + megaball}")
     
-    return winning_numbers, drawing_dates
+    # return winning_numbers, drawing_dates
     
 # Function to get Powerball numbers and dates
 def get_powerball_data():
