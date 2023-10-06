@@ -61,25 +61,30 @@ def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
-    rows = soup.select('tr.c-result-card')  # Updated selector for rows
+
+    # Select the rows from the table body
+    rows = soup.select('tbody.c-results-table__items tr.c-result-card')
     
     winning_numbers = []
     drawing_dates = []
 
     for row in rows:
-        # Parsing the drawing date
-        date = row.select_one('.c-result-card__title').text.strip()
+        # Skip rows that are ads or not relevant
+        if not row.select_one('time.c-result-card__title'):
+            continue
+
+        # Get the drawing date
+        date = row.select_one('time.c-result-card__title').text.strip()
         
-        # Parsing the winning numbers
-        numbers = [int(num.text.strip()) for num in row.select('.c-ball.c-result__item.c-ball--default .c-ball__label')]
+        # Get the main numbers
+        numbers = [int(num.span.text.strip()) for num in row.select('li.c-ball.c-result__item.c-ball--default')]
         
-        # Parsing the Mega Ball number
-        megaball = [int(n.text) for n in row.select('.c-result__item.c-result__bonus-ball .c-ball.c-ball--yellow .c-ball__label')]
+        # Get the Mega Ball number
+        megaball = [int(mb.span.text.strip()) for mb in row.select('li.c-result__item.c-result__bonus-ball span.c-ball.c-ball--yellow')]
         
-        # Appending the data to the lists
         drawing_dates.append(date)
         winning_numbers.append(numbers + megaball)
-    
+
     return winning_numbers, drawing_dates
     
 # Function to get Powerball numbers and dates
