@@ -61,17 +61,17 @@ def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
    
     page = requests.get(url)
-    print(page.status_code)
+    st.write(page.status_code)
 
     soup = BeautifulSoup(page.content, 'html.parser')
     
     # Print the beginning of the page content to verify the page was fetched correctly
-    print(soup.prettify()[:500])
+    st.write(soup.prettify()[:500])
     
     rows = soup.select('tbody.c-results-table__items tr.c-result-card')
     
     # Print the number of rows found to debug
-    print(f"Number of rows found: {len(rows)}")
+    st.write(f"Number of rows found: {len(rows)}")
     
     winning_numbers = []
     drawing_dates = []
@@ -88,7 +88,7 @@ def get_megamillions_data():
         winning_numbers.append(numbers + megaball)
         
         # Print each drawing date and winning numbers for debugging
-        print(f"{date}: {numbers + megaball}")
+        st.write(f"{date}: {numbers + megaball}")
     
     return winning_numbers, drawing_dates
 
