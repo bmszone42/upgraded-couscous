@@ -60,8 +60,7 @@ if "power_bonus" not in st.session_state:
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537'}
-
-    page = requests.get(url)
+    page = requests.get(url, headers=headers)
     st.write(page.status_code)
 
     soup = BeautifulSoup(page.content, 'html.parser')
