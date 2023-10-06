@@ -59,7 +59,10 @@ if "power_bonus" not in st.session_state:
 
 def get_megamillions_data():
     url = "https://www.lotteryusa.com/mega-millions/"
+   
     page = requests.get(url)
+    print(page.status_code)
+
     soup = BeautifulSoup(page.content, 'html.parser')
     
     # Print the beginning of the page content to verify the page was fetched correctly
